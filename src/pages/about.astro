@@ -1,0 +1,100 @@
+---
+import Base from "../layouts/Base.astro";
+import { biz } from "../data/site";
+
+const values = [
+  { n: "01", t: "We listen first", d: "More time with your provider, then a plan built around your preferences and values." },
+  { n: "02", t: "Real people, real care", d: "A team that genuinely cares about your wellness. You're our priority, not a number." },
+  { n: "03", t: "Health is wealth", d: "Wellness is a continuum. We help you find balance so you feel your best while you live." },
+];
+const team = [
+  { role: "Medical Director", note: "Board-certified collaborating physician overseeing every protocol." },
+  { role: "Nurse Practitioner", note: "Board-certified, leading your consultations and treatment plans." },
+  { role: "Registered Nurse", note: "Critical-care trained, the steady hands behind every infusion." },
+  { role: "Administrator", note: "Keeping your experience seamless from booking to follow-up." },
+];
+---
+<Base title="About" description="The story of ThrIVe Hydration & Spa and founder Patricia Miller, MSN, ARNP, FNP-BC.">
+  <!-- hero -->
+  <section data-hero data-theme="dark" class="hero bg-mesh-deep">
+    <div class="wrap">
+      <p class="eyebrow mb-5" data-reveal>Our story</p>
+      <h1 class="display-1 max-w-4xl" data-reveal data-reveal-delay="1">THRIVE and be <span class="accent">you, fully.</span></h1>
+      <p class="lede mt-7 max-w-2xl" data-reveal data-reveal-delay="2">We serve jet-setters, entrepreneurs, busy parents and athletes, with customized infusions and a huge emphasis on health and wellness.</p>
+    </div>
+  </section>
+
+  <!-- founder -->
+  <section data-theme="light" class="section">
+    <div class="wrap grid-12 items-center gap-y-10">
+      <div class="lg:col-span-5" data-reveal-img>
+        <div class="frame aspect-[4/5] max-w-md">
+          <img src="/images/patricia.jpg" alt="Patricia Miller, founder of ThrIVe" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+      <div class="lg:col-span-7 lg:pl-6" data-reveal>
+        <p class="eyebrow mb-5">Patricia Miller, MSN, ARNP, FNP-BC</p>
+        <blockquote class="pullquote text-ink">"We listen to you. You're our priority."</blockquote>
+        <p class="text-mute mt-7 max-w-xl">Patricia established ThrIVe in 2020, shortly after undergoing a craniectomy to remove a benign brain tumor. The experience reshaped how she saw health, and inspired her to create real wellness resources for her community.</p>
+        <p class="text-mute mt-4 max-w-xl">She brings more than 15 years of medical expertise in critical care, fluid and electrolyte balance and preventative medicine, blending IV hydration, functional medicine and anti-aging care into one thoughtful plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- values -->
+  <section data-theme="light" class="section !pt-0">
+    <div class="wrap">
+      <h2 class="display-2 mb-10 max-w-xl" data-reveal>The way ThrIVe cares.</h2>
+      <div data-reveal data-reveal-delay="1">
+        {values.map((v) => (
+          <div class="row !grid-cols-1 sm:!grid-cols-[20rem_1fr] !items-start">
+            <span class="display-3 text-ink">{v.t}</span>
+            <span class="text-mute text-sm leading-relaxed max-w-[60ch] sm:pt-1.5">{v.d}</span>
+            <span class="row__rule"></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- community image -->
+  <section data-theme="light" class="section !pt-0">
+    <div class="wrap" data-reveal-img>
+      <div class="frame aspect-[21/9]">
+        <img src="/images/real/community.jpg" alt="The ThrIVe community" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- team -->
+  <section data-theme="light" class="section !pt-0">
+    <div class="wrap">
+      <div class="max-w-xl mb-8" data-reveal>
+        <p class="eyebrow mb-4">The team</p>
+        <h2 class="display-2">Experience you can feel safe in.</h2>
+        <p class="lede mt-5">Collective expertise across critical care, internal medicine, nephrology and preventative care.</p>
+      </div>
+      <div data-reveal data-reveal-delay="1">
+        {team.map((m) => (
+          <div class="row">
+            <span class="display-3 text-ink self-center">{m.role}</span>
+            <span class="text-mute text-sm leading-relaxed self-center">{m.note}</span>
+            <span></span>
+            <span class="row__rule"></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section data-theme="dark" class="section-air bg-mesh-deep">
+    <div class="wrap-narrow text-center">
+      <h2 class="display-1" data-reveal>Ready to feel like yourself again?</h2>
+      <div class="flex flex-wrap gap-4 justify-center mt-8" data-reveal data-reveal-delay="1">
+        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book your visit</a>
+        <a href="/drip-finder" class="btn btn-ghost">Find my drip</a>
+      </div>
+    </div>
+  </section>
+</Base>

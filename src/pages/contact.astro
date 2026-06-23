@@ -1,0 +1,132 @@
+---
+import Base from "../layouts/Base.astro";
+import { biz, faqs } from "../data/site";
+---
+<Base title="Contact" description="Visit ThrIVe Hydration & Spa in Orlando, book online, or request a mobile house call.">
+  <section data-hero data-theme="light" class="hero">
+    <div class="wrap grid-12 items-center">
+      <div class="lg:col-span-7">
+        <p class="eyebrow mb-5" data-reveal>Visit & book</p>
+        <h1 class="display-1" data-reveal data-reveal-delay="1">Come thrive <span class="accent">with us.</span></h1>
+        <p class="lede mt-7" data-reveal data-reveal-delay="2">Drop into the lounge in Orlando, book online in a tap, or have us come to you with a mobile house call.</p>
+        <div class="flex flex-wrap items-center gap-5 mt-9" data-reveal data-reveal-delay="3">
+          <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book online <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href={biz.phoneHref} class="link-underline">Call {biz.phone}</a>
+        </div>
+      </div>
+      <div class="lg:col-span-5 mt-10 lg:mt-0" data-reveal-img>
+        <div class="frame aspect-[4/5]">
+          <img src="/images/mobile-care.jpg" alt="ThrIVe mobile house call" class="w-full h-full object-cover" fetchpriority="high" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-theme="light" class="section !pt-2">
+    <div class="wrap grid lg:grid-cols-[1fr_1.1fr] gap-12">
+      <!-- details -->
+      <div data-reveal>
+        <a href={biz.mapUrl} target="_blank" rel="noopener" class="row !grid-cols-[auto_1fr] group">
+          <span class="fig-index self-center">→</span>
+          <span><span class="display-3 text-ink block">Find the lounge</span><span class="text-mute text-sm">{biz.address}</span></span>
+          <span class="row__rule"></span>
+        </a>
+        <a href={biz.phoneHref} class="row !grid-cols-[auto_1fr]">
+          <span class="fig-index self-center">→</span>
+          <span><span class="display-3 text-ink block">Call or text</span><span class="text-mute text-sm">{biz.phone}</span></span>
+          <span class="row__rule"></span>
+        </a>
+        <a href={`mailto:${biz.email}`} class="row !grid-cols-[auto_1fr]">
+          <span class="fig-index self-center">→</span>
+          <span><span class="display-3 text-ink block">Email us</span><span class="text-mute text-sm">{biz.email}</span></span>
+          <span class="row__rule"></span>
+        </a>
+        <div class="mt-10">
+          <p class="eyebrow mb-4">Hours</p>
+          {biz.hours.map((h) => (
+            <div class="flex justify-between gap-4 py-2.5 border-t border-[var(--hair)] text-sm">
+              <span class="text-mute">{h.d}</span><span class="text-ink font-medium">{h.t}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- booking + form -->
+      <div data-reveal data-reveal-delay="1">
+        <div data-theme="dark" class="bg-mesh-deep p-8 sm:p-10 rounded-[4px] mb-5">
+          <p class="eyebrow mb-4">Fastest way in</p>
+          <h2 class="display-3 text-ice">Book online, instantly.</h2>
+          <p class="lede mt-3">Pick your drip or service and a time that works. Prefer a house call? Just ask.</p>
+          <div class="flex flex-wrap gap-4 mt-7">
+            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book your visit</a>
+            <a href="/drip-finder" class="link-underline">Not sure? Find my drip</a>
+          </div>
+        </div>
+
+        <form class="card" id="contact-form">
+          <p class="display-3 text-ink">Send a message</p>
+          <p class="text-sm text-mute mb-6 mt-1">We'll get back to you within one business day.</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="block"><span class="text-sm font-medium text-ink">Name</span>
+              <input required name="name" class="field" placeholder="Your name" /></label>
+            <label class="block"><span class="text-sm font-medium text-ink">Phone</span>
+              <input name="phone" class="field" placeholder="(407) 000-0000" /></label>
+          </div>
+          <label class="block mt-4"><span class="text-sm font-medium text-ink">Email</span>
+            <input required type="email" name="email" class="field" placeholder="you@email.com" /></label>
+          <label class="block mt-4"><span class="text-sm font-medium text-ink">How can we help?</span>
+            <textarea name="msg" rows="4" class="field resize-none" placeholder="Tell us what you're after: a drip, a service, a house call."></textarea></label>
+          <button type="submit" class="btn btn-primary w-full justify-center mt-5">Send message</button>
+          <p id="form-note" class="text-sm text-center mt-3 hidden accent font-medium">Thanks. This is a demo form; on the live site it lands in your inbox.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- map -->
+  <section data-theme="light" class="pb-20">
+    <div class="wrap">
+      <div class="frame" data-reveal>
+        <iframe title="ThrIVe Hydration & Spa map" width="100%" height="420" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=7067+Narcoossee+Rd,+Orlando,+FL+32822&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section data-theme="light" class="section" style="background:var(--color-vellum)">
+    <div class="wrap-narrow">
+      <div class="mb-10" data-reveal>
+        <p class="eyebrow mb-4">Good to know</p>
+        <h2 class="display-2">Frequently asked.</h2>
+      </div>
+      <div data-reveal data-reveal-delay="1">
+        {faqs.map((f) => (
+          <details class="faq">
+            <summary class="flex items-center justify-between gap-4 py-5 cursor-pointer list-none border-t border-[var(--hair)]">
+              <span class="display-3 text-ink">{f.q}</span>
+              <span class="faq-ic shrink-0 text-aqua transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></span>
+            </summary>
+            <p class="text-mute leading-relaxed pb-6 max-w-[64ch]">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .field { width: 100%; margin-top: 0.4rem; padding: 0.75rem 1rem; border-radius: var(--radius-btn); background: var(--color-clinic); border: 1px solid var(--hair); color: var(--color-ink); font-size: 0.95rem; transition: border-color 0.3s; font-family: inherit; }
+  .field::placeholder { color: var(--color-mist); }
+  .field:focus { outline: none; border-color: var(--color-aqua); }
+  .faq[open] .faq-ic { transform: rotate(45deg); }
+  .faq summary::-webkit-details-marker { display: none; }
+</style>
+
+<script>
+  document.getElementById("contact-form")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    document.getElementById("form-note")?.classList.remove("hidden");
+    (e.target as HTMLFormElement).querySelector("button")!.textContent = "Sent";
+  });
+</script>

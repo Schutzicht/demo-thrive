@@ -1,0 +1,103 @@
+---
+// Drip Finder — pick how you feel, get matched to a real ThrIVe blend. Clean, centered, responsive.
+import { biz, drips } from "../data/site";
+
+const moods = [
+  { key: "tired",    label: "Drained & low energy", slug: "rapid-recovery" },
+  { key: "hungover", label: "Rough morning after",  slug: "hangover-remedy" },
+  { key: "sick",     label: "Run down",             slug: "immunoboost" },
+  { key: "glow",     label: "Want to glow",         slug: "gal-pal-glow-up" },
+  { key: "foggy",    label: "Foggy & stressed",     slug: "focused-mind" },
+  { key: "bloated",  label: "Bloated & off",        slug: "merry-gut-microbiome" },
+  { key: "travel",   label: "Jet-lagged",           slug: "travelers-tonic" },
+  { key: "pms",      label: "That time of month",   slug: "pms-rescue" },
+];
+const dripMap = Object.fromEntries(drips.map((d) => [d.slug, { name: d.name, treats: d.treats, ingredients: d.ingredients }]));
+const data = Object.fromEntries(moods.map((m) => [m.key, { ...dripMap[m.slug], slug: m.slug }]));
+---
+<div class="dripfinder" data-finder data-map={JSON.stringify(data)}>
+  <div class="max-w-2xl mx-auto text-center">
+    <p class="eyebrow is-center justify-center mb-5">The Drip Finder</p>
+    <h2 class="display-2">How are you feeling?</h2>
+    <p class="lede mt-5" style="margin-inline:auto">Tap what's going on and we'll match you to the blend made for it. Your provider always confirms the final call.</p>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-2.5 mt-10 max-w-3xl mx-auto">
+    {moods.map((m) => (
+      <button class="feel" type="button" data-mood={m.key} aria-pressed="false">{m.label}</button>
+    ))}
+  </div>
+
+  <div class="mt-12 max-w-3xl mx-auto" data-theme="light">
+    <div class="result-card">
+      <div data-empty class="text-center py-6">
+        <p class="text-mute">Pick a feeling above and your recommended blend appears here.</p>
+      </div>
+      <div data-result hidden>
+        <div class="grid md:grid-cols-[1fr_auto] gap-7 md:gap-10 md:items-center">
+          <div>
+            <p class="eyebrow mb-3">Recommended for you</p>
+            <h3 class="display-2 text-ink" data-name></h3>
+            <p class="text-mute mt-3 max-w-[44ch]" data-treats></p>
+            <div class="flex flex-wrap gap-2 mt-5" data-ings></div>
+          </div>
+          <div class="flex flex-col gap-3 md:w-48 shrink-0">
+            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary justify-center">Book this drip</a>
+            <a href="/drips" class="link-underline justify-center" data-detail>See full blend
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .feel {
+    padding: 0.72rem 1.3rem; border-radius: 999px;
+    border: 1px solid var(--hair-dark); background: rgba(255,255,255,0.04); color: rgba(237,240,236,0.82);
+    font-weight: 500; font-size: 0.9rem; cursor: pointer;
+    transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out), color 0.25s var(--ease-out), transform 0.12s;
+  }
+  @media (hover: hover) { .feel:hover { border-color: var(--color-aqua-light); color: var(--color-ice); background: rgba(255,255,255,0.08); } }
+  .feel:active { transform: scale(0.96); }
+  .feel[aria-pressed="true"] { background: var(--color-aqua); border-color: var(--color-aqua); color: #fff; }
+
+  .result-card { background: var(--color-linen); border-radius: 18px; padding: clamp(1.6rem, 3.5vw, 2.6rem); box-shadow: var(--shadow-raise); transition: opacity 0.35s var(--ease-out); }
+  .result-card.is-leaving { opacity: 0; }
+  [data-result] { animation: ffade 0.45s var(--ease-out); }
+  @keyframes ffade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { [data-result] { animation: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-finder]").forEach((root) => {
+    const map = JSON.parse(root.dataset.map || "{}");
+    const card = root.querySelector<HTMLElement>(".result-card")!;
+    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+    const result = root.querySelector<HTMLElement>("[data-result]")!;
+    const feels = Array.from(root.querySelectorAll<HTMLButtonElement>(".feel"));
+
+    const render = (key: string) => {
+      const d = map[key];
+      if (!d) return;
+      empty.hidden = true; result.hidden = false;
+      result.style.animation = "none"; void result.offsetWidth; result.style.animation = "";
+      result.querySelector("[data-name]")!.textContent = d.name;
+      result.querySelector("[data-treats]")!.textContent = d.treats;
+      result.querySelector("[data-ings]")!.innerHTML = d.ingredients.map((i: string) => `<span class="chip">${i}</span>`).join("");
+      (result.querySelector("[data-detail]") as HTMLAnchorElement).href = `/drips#${d.slug}`;
+    };
+
+    feels.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        feels.forEach((b) => b.setAttribute("aria-pressed", "false"));
+        btn.setAttribute("aria-pressed", "true");
+        const key = btn.dataset.mood!;
+        if (result.hidden) { render(key); }
+        else { card.classList.add("is-leaving"); setTimeout(() => { render(key); card.classList.remove("is-leaving"); }, 200); }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import DripFinder from "../components/DripFinder.astro";
+
+const steps = [
+  { t: "Tell us how you feel", d: "Pick the symptom or goal that fits today." },
+  { t: "Meet your match", d: "We script the real ThrIVe blend built for it." },
+  { t: "Book and relax", d: "A provider confirms your plan and you're set." },
+];
+---
+<Base title="Drip Finder" description="Tell us how you feel and we'll match you with the perfect ThrIVe IV blend.">
+  <section data-hero data-theme="light" class="hero">
+    <div class="wrap grid-12 items-center">
+      <div class="lg:col-span-7">
+        <p class="eyebrow mb-5" data-reveal>The Drip Finder</p>
+        <h1 class="display-1" data-reveal data-reveal-delay="1">Your body knows.<br />Let's <span class="accent">listen.</span></h1>
+        <p class="lede mt-7" data-reveal data-reveal-delay="2">A quick, no-pressure way to find the blend made for today. Tap how you feel and we'll do the rest. The final call is always made with your provider.</p>
+        <a href="#finder" class="btn btn-primary mt-9" data-reveal data-reveal-delay="3">Start the finder
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </a>
+      </div>
+      <div class="lg:col-span-5 mt-10 lg:mt-0" data-reveal-img>
+        <div class="frame aspect-[4/5]">
+          <img src="/images/hero-wellness.jpg" alt="A calm ThrIVe wellness lounge" class="w-full h-full object-cover" fetchpriority="high" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="finder" data-theme="dark" class="section-air bg-mesh-deep !pt-0 scroll-mt-20">
+    <div class="wrap" style="padding-top:clamp(2rem,5vw,4rem)"><DripFinder /></div>
+  </section>
+
+  <section data-theme="light" class="section">
+    <div class="wrap">
+      <div class="hairline mb-12"></div>
+      <div class="grid gap-10 sm:grid-cols-3">
+        {steps.map((s, i) => (
+          <div class:list={["sm:pr-8", i > 0 && "sm:pl-10 sm:border-l border-[var(--hair)]"]} data-reveal data-reveal-delay={i}>
+            <span class="w-2 h-2 rounded-full bg-aqua inline-block mb-5"></span>
+            <h3 class="display-3 text-ink">{s.t}</h3>
+            <p class="text-mute text-sm mt-2">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

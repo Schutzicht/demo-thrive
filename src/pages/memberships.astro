@@ -1,0 +1,78 @@
+---
+import Base from "../layouts/Base.astro";
+import { biz } from "../data/site";
+
+const tiers = [
+  { name: "ThrIVe One", n: "01", drips: "1 drip / month", popular: false,
+    perks: ["One signature IV drip each month", "Member pricing on all services", "Priority booking"] },
+  { name: "ThrIVe Two", n: "02", drips: "2 drips / month", popular: true,
+    perks: ["Two signature IV drips each month", "10% off add-on vitamins and shots", "Member pricing on all services", "Priority booking and rollover"] },
+  { name: "ThrIVe Four", n: "03", drips: "4 drips / month", popular: false,
+    perks: ["Four signature IV drips each month", "Complimentary vitamin shot monthly", "Best member pricing on aesthetics", "Priority booking and rollover", "Bring-a-friend guest pass"] },
+];
+const extras = [
+  { n: "01", title: "ThrIVe Party", blurb: "Bring the lounge to your celebration: birthdays, bridal weekends, game day. We set up, you glow." },
+  { n: "02", title: "Corporate Wellness", blurb: "Keep your team performing at their best with on-site hydration days and recovery for busy offices." },
+];
+---
+<Base title="Memberships" description="ThrIVe membership plans, parties and corporate wellness, make feeling your best a habit.">
+  <section data-hero data-theme="light" class="hero">
+    <div class="wrap grid-12 items-center">
+      <div class="lg:col-span-5 order-2 lg:order-1 mt-10 lg:mt-0" data-reveal-img>
+        <div class="frame aspect-[4/5]">
+          <img src="/images/lounge-detail.jpg" alt="The ThrIVe lounge" class="w-full h-full object-cover" fetchpriority="high" />
+        </div>
+      </div>
+      <div class="lg:col-span-7 order-1 lg:order-2 lg:pl-6">
+        <p class="eyebrow mb-5" data-reveal>Memberships</p>
+        <h1 class="display-1" data-reveal data-reveal-delay="1">Make wellness <span class="accent">a habit.</span></h1>
+        <p class="lede mt-7" data-reveal data-reveal-delay="2">Monthly drip plans with member pricing across every service. Pause or change any time, your wellness, your pace.</p>
+        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary mt-9" data-reveal data-reveal-delay="3">Become a member <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section data-theme="light" class="section !pt-4">
+    <div class="wrap grid lg:grid-cols-3 gap-5 items-stretch">
+      {tiers.map((t) => (
+        <div class:list={["card flex flex-col", t.popular && "is-dark"]} data-theme={t.popular ? "dark" : "light"} data-reveal style={t.popular ? "background:var(--color-deep)" : ""}>
+          <div class="card-top">
+            <p class="eyebrow">{t.popular ? "Most chosen" : "Plan"}</p>
+          </div>
+          <h2 class="display-3 mt-5">{t.name}</h2>
+          <p class="text-sm mt-1" class:list={[t.popular ? "text-ice/60" : "text-mute"]}>{t.drips}</p>
+          <ul class="space-y-3 my-8 grow">
+            {t.perks.map((p) => (
+              <li class="flex items-start gap-3 text-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 mt-0.5 accent"><path d="M20 6L9 17l-5-5"/></svg>
+                <span class:list={[t.popular ? "text-ice/85" : "text-mute"]}>{p}</span>
+              </li>
+            ))}
+          </ul>
+          <a href={biz.bookingUrl} target="_blank" rel="noopener" class:list={["btn justify-center", t.popular ? "btn-primary" : "btn-ghost"]}>Become a member</a>
+        </div>
+      ))}
+    </div>
+    <p class="wrap text-center text-sm text-mute mt-6">Pricing shared in consultation. Call <a href={biz.phoneHref} class="accent">{biz.phone}</a> for current rates.</p>
+  </section>
+
+  <section data-theme="light" class="section">
+    <div class="wrap">
+      <h2 class="display-2 mb-10 max-w-lg" data-reveal>More ways to thrive together.</h2>
+      <div data-reveal data-reveal-delay="1">
+        {extras.map((e) => (
+          <div class="row !grid-cols-[1fr_auto] !items-start">
+            <div class="min-w-0">
+              <h3 class="display-3 text-ink">{e.title}</h3>
+              <p class="text-mute text-sm mt-2 max-w-[56ch]">{e.blurb}</p>
+            </div>
+            <a href="/contact" class="link-underline self-center hidden sm:inline-flex">Plan it
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <span class="row__rule"></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
