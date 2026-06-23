@@ -80,6 +80,16 @@ html.lenis, html.lenis body { height: auto; }
   .text-pretty { text-wrap: pretty; }
 }
 
+/* ---------- Home hero: fit within the viewport so the next section peeks ---------- */
+.hero-home { padding-top: clamp(5.5rem, 4rem + 3.2vh, 6.75rem); padding-bottom: clamp(1.75rem, 3vh, 2.75rem); }
+.hero-home .display-xl { font-size: clamp(2.7rem, 1rem + 5.4vw, 5.2rem); line-height: 0.95; }
+.hero-media { width: 100%; max-width: 26rem; margin-inline: auto; }
+@media (min-width: 1024px) { .hero-media { max-width: 23rem; margin-right: 0; } }
+@media (max-height: 760px) and (min-width: 1024px) {
+  .hero-home .display-xl { font-size: clamp(2.6rem, 4.4vw, 4.2rem); }
+  .hero-media { max-width: 20rem; }
+}
+
 /* ---------- Scroll reveal ---------- */
 [data-reveal] { opacity: 0; transform: translateY(34px) scale(0.975); transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo); transition-delay: var(--reveal-delay, 0ms); will-change: opacity, transform; }
 [data-reveal].is-visible { opacity: 1; transform: none; }
