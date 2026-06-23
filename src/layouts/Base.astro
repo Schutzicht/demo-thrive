@@ -18,9 +18,7 @@ const fullTitle = title ? `${title} · ${biz.name}` : `${biz.name} | IV Therapy,
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@18..72,400;18..72,500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" />
   </head>
   <body>
     <Header />
@@ -30,24 +28,20 @@ const fullTitle = title ? `${title} · ${biz.name}` : `${biz.name} | IV Therapy,
     <Footer />
 
     <script>
-      // Reveal on scroll. Bulletproof: in-view elements reveal immediately,
-      // IO handles the rest on scroll, and a safety net guarantees nothing stays hidden.
-      const revealEls = Array.from(document.querySelectorAll("[data-reveal], [data-reveal-img]"));
-      const show = (el: Element) => el.classList.add("is-visible");
-      const inView = (el: Element) => { const r = el.getBoundingClientRect(); return r.top < window.innerHeight * 1.05 && r.bottom > 0; };
-
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
-      }, { threshold: 0, rootMargin: "0px 0px -6% 0px" });
-      revealEls.forEach((el) => io.observe(el));
-
-      // Reveal whatever is already on screen right away (don't wait on the observer).
-      requestAnimationFrame(() => revealEls.forEach((el) => { if (inView(el)) show(el); }));
-      // Final safety net: never leave content hidden if the observer misses an element.
-      window.addEventListener("load", () => setTimeout(() => revealEls.forEach((el) => { if (inView(el)) show(el); }), 400));
-
-      // Count-up for stat figures
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Scroll reveal
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); } });
+      }, { threshold: 0.1, rootMargin: "0px 0px -8% 0px" });
+      const revealEls = Array.from(document.querySelectorAll("[data-reveal]"));
+      revealEls.forEach((el) => io.observe(el));
+      requestAnimationFrame(() => revealEls.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 1.05 && r.bottom > 0) el.classList.add("is-visible");
+      }));
+
+      // Count-up
       const countEls = document.querySelectorAll<HTMLElement>("[data-count]");
       if (countEls.length) {
         const cio = new IntersectionObserver((entries) => {
@@ -57,27 +51,35 @@ const fullTitle = title ? `${title} · ${biz.name}` : `${biz.name} | IV Therapy,
             const target = parseFloat(el.dataset.count || "0");
             const suffix = el.dataset.suffix || "";
             if (reduce) { el.textContent = target + suffix; return; }
-            const dur = 1400; const start = performance.now();
-            const tick = (now: number) => {
-              const t = Math.min(1, (now - start) / dur);
-              const eased = 1 - Math.pow(1 - t, 3);
-              el.textContent = Math.round(target * eased) + suffix;
-              if (t < 1) requestAnimationFrame(tick);
-            };
+            const dur = 1400, start = performance.now();
+            const tick = (now: number) => { const t = Math.min(1, (now - start) / dur); el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3))) + suffix; if (t < 1) requestAnimationFrame(tick); };
             requestAnimationFrame(tick);
           });
         }, { threshold: 0.5 });
         countEls.forEach((el) => cio.observe(el));
       }
 
-      // Lenis smooth scroll
+      // Body background follows the section in view (data-bg)
+      const bgSections = Array.from(document.querySelectorAll<HTMLElement>("[data-bg]"));
+      if (bgSections.length) {
+        const bgio = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting && e.intersectionRatio > 0.5) {
+              const c = (e.target as HTMLElement).dataset.bg;
+              if (c) document.body.style.backgroundColor = c;
+            }
+          });
+        }, { threshold: [0.5, 0.75] });
+        bgSections.forEach((s) => bgio.observe(s));
+      }
+
+      // Lenis smooth scroll + parallax
       if (!reduce) {
         import("lenis").then(({ default: Lenis }) => {
           const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
           function raf(t: number) { lenis.raf(t); requestAnimationFrame(raf); }
           requestAnimationFrame(raf);
 
-          // Subtle scroll parallax (piggybacks on Lenis)
           const px = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
           if (px.length) {
             const drift = () => {
@@ -89,8 +91,7 @@ const fullTitle = title ? `${title} · ${biz.name}` : `${biz.name} | IV Therapy,
                 el.style.transform = `translate3d(0, ${(-prog * amt).toFixed(2)}px, 0)`;
               });
             };
-            lenis.on("scroll", drift);
-            drift();
+            lenis.on("scroll", drift); drift();
           }
 
           document.querySelectorAll('a[href^="#"]').forEach((a) => {

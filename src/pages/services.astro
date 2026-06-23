@@ -1,70 +1,55 @@
 ---
 import Base from "../layouts/Base.astro";
 import { biz, services } from "../data/site";
-
 const groups = [
-  { key: "Hydration", n: "01", blurb: "IV infusions and quick vitamin shots, customized to you.", img: "/images/iv-detail.jpg" },
-  { key: "Aesthetics", n: "02", blurb: "Natural-looking results from a medical, less-is-more hand.", img: "/images/treatment-room.jpg" },
-  { key: "Weight Loss", n: "03", blurb: "Provider-supervised programs built around your body and goals.", img: "/images/glow.jpg" },
-  { key: "Wellness", n: "04", blurb: "Hormones, peptides and unhurried primary care.", img: "/images/lounge-detail.jpg" },
+  { key: "Hydration", blurb: "IV infusions and quick vitamin shots, customized to you.", img: "/images/iv-detail.jpg", c: "var(--color-aqua)", soft: "var(--color-aqua-soft)" },
+  { key: "Aesthetics", blurb: "Natural-looking results from a medical, less-is-more hand.", img: "/images/treatment-room.jpg", c: "var(--color-blush)", soft: "var(--color-blush-soft)" },
+  { key: "Weight Loss", blurb: "Provider-supervised programs built around your body and goals.", img: "/images/warm-relax.jpg", c: "var(--color-sun)", soft: "var(--color-sun-soft)" },
+  { key: "Wellness", blurb: "Hormones, peptides and unhurried primary care.", img: "/images/lounge-detail.jpg", c: "var(--color-sage)", soft: "var(--color-sage-soft)" },
 ] as const;
 ---
 <Base title="Services" description="IV hydration, aesthetics, medical weight loss, hormone therapy and more, all under one roof in Orlando.">
-  <section data-hero data-theme="light" class="hero">
-    <div class="wrap grid-12 items-center">
-      <div class="lg:col-span-5 order-2 lg:order-1 mt-10 lg:mt-0" data-reveal-img>
-        <div class="frame aspect-[4/5]">
-          <img src="/images/hero-services.jpg" alt="A ThrIVe treatment room" class="w-full h-full object-cover" fetchpriority="high" />
-        </div>
-      </div>
-      <div class="lg:col-span-7 order-1 lg:order-2 lg:pl-6">
-        <p class="eyebrow mb-5" data-reveal>What we offer</p>
-        <h1 class="display-1" data-reveal data-reveal-delay="1">Medical wellness,<br />head to <span class="accent">toe.</span></h1>
-        <p class="lede mt-7" data-reveal data-reveal-delay="2">Every service is overseen by our medical team: a board-certified physician, nurse practitioner and registered nurse. Real care, no shortcuts.</p>
-        <div class="flex flex-wrap items-center gap-5 mt-9" data-reveal data-reveal-delay="3">
-          <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book a consultation <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href="/drip-finder" class="link-underline">Try the Drip Finder</a>
-        </div>
-      </div>
+  <!-- hero -->
+  <section class="grain relative overflow-hidden pt-32 pb-12 sm:pt-40" data-bg="#FBF4E6">
+    <div class="aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative max-w-3xl">
+      <p class="font-hand text-3xl text-gold-deep sm:text-4xl" data-reveal>More than a drip</p>
+      <h1 class="display-xl mt-1 text-balance" data-reveal style="--reveal-delay:60ms">Medical wellness,<br />head to <span class="text-gold-deep">toe.</span></h1>
+      <p class="lede mt-6 max-w-xl text-pretty" data-reveal style="--reveal-delay:130ms">Every service is overseen by our medical team: a board-certified physician, nurse practitioner and registered nurse. Real care, no shortcuts.</p>
     </div>
   </section>
 
   {groups.map((g, gi) => (
-    <section data-theme="light" class:list={["section relative overflow-hidden", gi % 2 === 1 && "bg-aqua-wash"]}>
-      <div class="wrap grid-12 items-start gap-y-8 relative">
-        <div class:list={["lg:col-span-5", gi % 2 === 1 ? "lg:order-2" : ""]} data-reveal-img>
-          <div class="frame aspect-[4/5] max-w-sm">
-            <img src={g.img} alt={g.key} class="w-full h-full object-cover" loading="lazy" data-parallax="10" />
-          </div>
+    <section class="relative overflow-hidden py-20 sm:py-24" data-bg={gi % 2 === 1 ? "#FDF1DA" : "#FBF4E6"} style={gi % 2 === 1 ? "background:#FDF1DA" : ""}>
+      <div class="wrap grid items-center gap-12 lg:grid-cols-2">
+        <div class:list={["relative mx-auto w-full max-w-md", gi % 2 === 1 && "lg:order-2"]} data-reveal={gi % 2 === 1 ? "right" : "left"}>
+          <div class:list={["absolute -inset-3", gi % 2 === 0 ? "blob-a" : "blob-b"]} style={`background:${g.soft}`} aria-hidden="true"></div>
+          <img src={g.img} alt={g.key} class:list={["relative aspect-square w-full object-cover", gi % 2 === 0 ? "blob-a" : "blob-b"]} width="520" height="520" loading="lazy" data-parallax="10" />
         </div>
-        <div class:list={["lg:col-span-7 relative", gi % 2 === 1 ? "lg:order-1 lg:pr-8" : "lg:pl-2"]} data-reveal>
-          <span class="ghost-num absolute -top-12 -left-1 hidden lg:block -z-0" aria-hidden="true">{g.n}</span>
-          <div class="relative z-10">
-            <p class="eyebrow mb-3">{g.key}</p>
-            <h2 class="display-2 mb-8">{g.blurb}</h2>
-            <div class="grid sm:grid-cols-2 gap-4">
-              {services.filter((s) => s.group === g.key).map((s) => (
-                <div class="card">
-                  <div class="card-top">
-                    <h3 class="display-3 text-ink">{s.name}</h3>
-                    <p class="text-mute text-sm mt-2 leading-relaxed">{s.blurb}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div class:list={[gi % 2 === 1 && "lg:order-1"]} data-reveal style="--reveal-delay:80ms">
+          <span class="block h-1.5 w-12 rounded-full" style={`background:${g.c}`}></span>
+          <h2 class="display-lg mt-4 text-balance">{g.blurb}</h2>
+          <div class="mt-7 grid gap-3 sm:grid-cols-2">
+            {services.filter((s) => s.group === g.key).map((s) => (
+              <div class="card-pop p-5">
+                <h3 class="display-sm text-ink" style="font-size:1.15rem">{s.name}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-mist">{s.blurb}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   ))}
 
-  <section data-theme="dark" class="section-air bg-mesh-deep">
-    <div class="wrap-narrow text-center">
-      <h2 class="display-2" data-reveal>Not sure where to start? We'll build the plan with you.</h2>
-      <p class="lede mt-6" data-reveal data-reveal-delay="1" style="margin-inline:auto">Book a consultation and we'll listen first, then design a plan around your preferences, values and goals.</p>
-      <div class="flex flex-wrap gap-4 justify-center mt-9" data-reveal data-reveal-delay="2">
-        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book a consultation</a>
-        <a href={biz.phoneHref} class="btn btn-ghost">Call {biz.phone}</a>
+  <!-- CTA -->
+  <section class="section-dark bg-mesh-deep relative overflow-hidden py-24 sm:py-28 text-center" data-bg="#14201A">
+    <div class="wrap-narrow">
+      <h2 class="display-lg text-balance" data-reveal>Not sure where to start? We'll build the plan with you.</h2>
+      <p class="lede mx-auto mt-5 max-w-xl text-pretty" data-reveal style="--reveal-delay:80ms">Book a consultation and we'll listen first, then design a plan around your goals.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4" data-reveal style="--reveal-delay:140ms">
+        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-primary btn-press">Book a consultation</a>
+        <a href={biz.phoneHref} class="btn-ghost btn-press !text-paper !border-white/25">Call {biz.phone}</a>
       </div>
     </div>
   </section>

@@ -3,59 +3,57 @@ import Base from "../layouts/Base.astro";
 import { biz, drips } from "../data/site";
 ---
 <Base title="Drip Menu" description="The ThrIVe IV hydration drip menu, twelve signature vitamin blends for energy, recovery, immunity, glow and more.">
-  <!-- header -->
-  <section data-hero data-theme="light" class="hero">
-    <div class="wrap grid-12 items-center">
-      <div class="lg:col-span-7">
-        <p class="eyebrow mb-5" data-reveal>The drip menu</p>
-        <h1 class="display-1" data-reveal data-reveal-delay="1">Twelve blends.<br />One <span class="accent">you.</span></h1>
-        <p class="lede mt-7" data-reveal data-reveal-delay="2">Every drip is prepared and given by licensed medical professionals. Not sure which one fits today? Let the Drip Finder match you in seconds.</p>
-        <div class="flex flex-wrap items-center gap-5 mt-9" data-reveal data-reveal-delay="3">
-          <a href="/drip-finder" class="btn btn-primary">Find your drip <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href={biz.bookingUrl} target="_blank" rel="noopener" class="link-underline">Book a visit</a>
-        </div>
-      </div>
-      <div class="lg:col-span-5 mt-10 lg:mt-0">
-        <div class="frame aspect-[4/5]" data-reveal-img>
-          <img src="/images/hero-drips.jpg" alt="ThrIVe IV vitamin blends" class="w-full h-full object-cover" fetchpriority="high" />
-        </div>
+  <!-- hero -->
+  <section class="grain relative overflow-hidden pt-32 pb-12 sm:pt-40" data-bg="#FBF4E6">
+    <div class="aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative text-center max-w-3xl mx-auto">
+      <p class="font-hand text-3xl text-gold-deep sm:text-4xl" data-reveal>Pick your potion</p>
+      <h1 class="display-xl mt-1 text-balance" data-reveal style="--reveal-delay:60ms">Twelve blends.<br />One <span class="text-gold-deep">you.</span></h1>
+      <p class="lede mt-6 mx-auto max-w-xl text-pretty" data-reveal style="--reveal-delay:130ms">Every drip is mixed and given by licensed medical pros. Not sure which fits today? Let the Drip Finder match you in seconds.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4" data-reveal style="--reveal-delay:200ms">
+        <a href="/drip-finder" class="btn-primary btn-press">Find your drip</a>
+        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-ghost btn-press">Book a visit</a>
       </div>
     </div>
   </section>
 
   <!-- lookbook -->
-  <section data-theme="light" class="section">
-    <div class="wrap">
+  <section class="relative wrap pb-24 sm:pb-32" data-bg="#FBF4E6">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {drips.map((d, i) => (
-        <article id={d.slug} class="row scroll-mt-28 !grid-cols-[auto_1fr] sm:!grid-cols-[3.5rem_1fr_auto] !items-start" data-reveal>
-          <span class="fig-index pt-1.5" style={`color:${d.color}`}>{String(i + 1).padStart(2, "0")}</span>
-          <div class="min-w-0">
-            <h2 class="display-3 text-ink">{d.name}</h2>
-            <p class="text-mute text-sm mt-2 max-w-[52ch]">{d.treats}</p>
-            <div class="flex flex-wrap gap-2 mt-4">
-              {d.ingredients.map((ing) => <span class="chip">{ing}</span>)}
-            </div>
+        <article id={d.slug} class="card-pop scroll-mt-28 group relative overflow-hidden p-7 flex flex-col" data-reveal style={`--reveal-delay:${(i % 3) * 70}ms; --pop-rot:${i % 2 === 0 ? "-1deg" : "1deg"}`}>
+          <span class="absolute -right-9 -top-9 h-28 w-28 rounded-full opacity-15 transition-opacity duration-500 group-hover:opacity-35" style={`background:${d.color}`} aria-hidden="true"></span>
+          <div class="relative flex items-center gap-3">
+            <span class="grid h-11 w-11 place-items-center rounded-full shrink-0" style={`background:color-mix(in oklab, ${d.color} 18%, white); color:${d.color}`}>
+              <svg width="20" height="24" viewBox="0 0 24 30" fill="none"><path d="M12 2C12 2 4 14 4 20a8 8 0 0 0 16 0C20 14 12 2 12 2Z" fill="currentColor"/></svg>
+            </span>
+            <span class="font-hand text-2xl" style={`color:${d.color}`}>{String(i + 1).padStart(2, "0")}</span>
           </div>
-          <div class="col-span-2 sm:col-span-1 flex sm:flex-col sm:items-end gap-3 mt-4 sm:mt-1 items-center">
-            <span class="text-mute text-xs">Call or book for pricing</span>
-            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-ghost !py-2 !px-4 text-sm">Book this</a>
+          <h2 class="display-sm mt-4 text-ink">{d.name}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-mist">{d.treats}</p>
+          <div class="mt-4 flex flex-wrap gap-1.5">
+            {d.ingredients.slice(0, 4).map((ing) => <span class="chip !text-xs !py-1 !px-2.5">{ing}</span>)}
           </div>
-          <span class="row__rule"></span>
+          <div class="mt-5 flex items-center justify-between gap-3 pt-4 border-t hairline">
+            <span class="text-xs text-mist">Call or book for pricing</span>
+            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-ghost btn-press !py-1.5 !px-3.5 text-sm">Book</a>
+          </div>
         </article>
       ))}
     </div>
   </section>
 
   <!-- build your own -->
-  <section data-theme="dark" class="section bg-mesh-deep">
-    <div class="wrap grid-12 items-center gap-y-8">
-      <div class="lg:col-span-8">
-        <p class="eyebrow mb-4">Just Hydration</p>
-        <h2 class="display-2">Prefer to build<br />your own?</h2>
-        <p class="lede mt-5 max-w-xl">Start with our 500ml saline base and add the vitamins and minerals you want. Our providers help you tailor the perfect infusion for the way you feel today.</p>
+  <section class="section-dark bg-mesh-deep relative overflow-hidden py-24 sm:py-28" data-bg="#14201A">
+    <span class="sticker absolute right-8 top-12 bg-gold text-ink hidden sm:inline-block" style="--sticker-rot:6deg" data-reveal>Build-your-own</span>
+    <div class="wrap grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+      <div data-reveal>
+        <p class="font-hand text-3xl text-gold-soft sm:text-4xl">Just Hydration</p>
+        <h2 class="display-lg mt-1 text-balance">Prefer to build your own?</h2>
+        <p class="lede mt-5 max-w-xl text-pretty">Start with our 500ml saline base and add the vitamins and minerals you want. Our providers help you tailor the perfect infusion for the way you feel today.</p>
       </div>
-      <div class="lg:col-span-4 lg:text-right">
-        <a href="/drip-finder" class="btn btn-primary">Start with the Drip Finder <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="lg:text-right" data-reveal style="--reveal-delay:80ms">
+        <a href="/drip-finder" class="btn-primary btn-press">Start with the Drip Finder <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
     </div>
   </section>

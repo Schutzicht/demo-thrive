@@ -1,211 +1,187 @@
 ---
 import Base from "../layouts/Base.astro";
+import DripJourney from "../components/DripJourney.astro";
 import DripFinder from "../components/DripFinder.astro";
 import { biz, drips, services, testimonials } from "../data/site";
 
-const feature = drips[2]; // Rapid Recovery Elixir
-const cardDrips = drips.filter((d) => d.slug !== feature.slug).slice(0, 6);
+const cardDrips = [drips[2], drips[0], drips[5], drips[6], drips[4], drips[1]];
 const groups = ["Hydration", "Aesthetics", "Weight Loss", "Wellness"] as const;
 const stats = [
-  { count: 12, suffix: "", label: "Signature IV blends" },
-  { count: 15, suffix: "+", label: "Years of medical expertise" },
-  { count: 30, suffix: " min", label: "In and out, feeling new" },
-];
-const trust = [
-  { t: "Board-certified medical team", icon: "M12 3l7 3v5c0 4.4-3 7.8-7 9-4-1.2-7-4.6-7-9V6l7-3Zm-2.5 8 1.7 1.7L15 9" },
-  { t: "RN-administered infusions", icon: "M12 2C12 2 6 9 6 14a6 6 0 0 0 12 0c0-5-6-12-6-12Z" },
-  { t: "Mobile house calls in Orlando", icon: "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z M12 10h.01" },
-  { t: "FSA / HSA eligible", icon: "M20 6L9 17l-5-5" },
+  { count: 12, suffix: "", label: "Signature IV blends, mixed for you" },
+  { count: 15, suffix: "+", label: "Years of real medical expertise" },
+  { count: 40, suffix: " min", label: "In, out, and feeling new" },
 ];
 ---
 <Base>
-  <!-- HERO -->
-  <section data-hero data-theme="light" class="hero">
-    <div class="wrap grid-12 items-center">
-      <div class="lg:col-span-7">
-        <p class="eyebrow" data-reveal>Board-certified IV therapy · Orlando</p>
-        <h1 class="display-1 mt-6" data-reveal data-reveal-delay="1">Thrive,<br />don't just <span class="accent">survive.</span></h1>
-        <p class="lede mt-7" data-reveal data-reveal-delay="2">Customized infusions, medical wellness and aesthetics from a team that listens first. Your health is your greatest wealth, so let's invest in it.</p>
-        <div class="flex flex-wrap items-center gap-5 mt-9" data-reveal data-reveal-delay="3">
-          <a href="/drip-finder" class="btn btn-primary">Find your drip <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href="/drips" class="link-underline">See the drip menu</a>
+  <!-- ============ HERO ============ -->
+  <section class="grain relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24" data-bg="#FBF4E6">
+    <div class="aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+      <div>
+        <span class="sticker bg-sage text-paper" style="--sticker-rot:-3deg" data-reveal>Open today · 9–6</span>
+        <h1 class="display-xl mt-5 text-balance" data-reveal style="--reveal-delay:60ms">Thrive,<br />don't just <span class="text-gold-deep">survive.</span></h1>
+        <p class="lede mt-6 max-w-xl text-pretty" data-reveal style="--reveal-delay:130ms">Customized IV drips, medical wellness and aesthetics in Orlando, from a team that listens first. Your health is your greatest wealth, so let's invest in it together.</p>
+        <div class="mt-9 flex flex-wrap items-center gap-4" data-reveal style="--reveal-delay:200ms">
+          <a href="/drip-finder" class="btn-primary btn-press">Find your drip <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="/drips" class="btn-ghost btn-press">See the drip menu</a>
         </div>
       </div>
-      <div class="lg:col-span-5 mt-10 lg:mt-0 relative z-10">
-        <div class="frame aspect-[4/5]" data-reveal-img>
-          <img src="/images/iv-detail.jpg" alt="A ThrIVe IV hydration infusion" class="w-full h-full object-cover" fetchpriority="high" data-parallax="12" />
-          <div class="hero-chip">RN-administered</div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- TRUST STRIP -->
-  <section data-theme="light" class="section-sm !pt-0">
-    <div class="wrap">
-      <ul class="flex flex-wrap items-center gap-x-8 gap-y-3" data-reveal>
-        {trust.map((x) => (
-          <li class="inline-flex items-center gap-2.5 text-xs uppercase tracking-[0.16em] text-mute">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-aqua shrink-0"><path d={x.icon}/></svg>
-            {x.t}
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- STAT STRIP -->
-  <section data-theme="light" class="section-sm !pt-2">
-    <div class="wrap">
-      <div class="hairline-brass mb-12"></div>
-      <div class="grid gap-y-10 sm:grid-cols-3" data-reveal>
-        {stats.map((s, i) => (
-          <div class:list={["flex items-baseline gap-4 sm:px-10", i === 0 && "sm:pl-0", i > 0 && "sm:border-l border-[var(--hair)]"]}>
-            <span class="fig-stat text-ink leading-none shrink-0"><span data-count={s.count} data-suffix={s.suffix}>0{s.suffix}</span></span>
-            <span class="text-mute text-sm leading-snug">{s.label}</span>
+      <div class="relative mx-auto w-full max-w-md lg:mr-0" data-reveal="scale" style="--reveal-delay:140ms">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="relative col-span-2">
+            <div class="blob-a absolute -inset-3 bg-gold-soft" aria-hidden="true"></div>
+            <img src="/images/warm-relax.jpg" alt="A guest relaxing during a ThrIVe IV drip" class="blob-a relative aspect-[4/3] w-full object-cover" width="640" height="480" loading="eager" fetchpriority="high" data-parallax="14" />
           </div>
-        ))}
+          <div class="relative">
+            <div class="blob-b absolute -inset-2 bg-aqua-soft" aria-hidden="true"></div>
+            <img src="/images/iv-detail.jpg" alt="A fresh ThrIVe vitamin infusion" class="blob-b relative aspect-square w-full object-cover" width="320" height="320" loading="eager" />
+          </div>
+          <div class="relative">
+            <div class="blob-c absolute -inset-2 bg-blush-soft" aria-hidden="true"></div>
+            <img src="/images/warm-hands.jpg" alt="An RN preparing a vitamin drip" class="blob-c relative aspect-square w-full object-cover" width="320" height="320" loading="eager" />
+          </div>
+        </div>
+        <span class="sticker floaty absolute -left-3 top-[44%] bg-gold text-ink" style="--sticker-rot:-8deg">RN-administered</span>
+        <span class="sticker floaty floaty--alt absolute -right-2 -bottom-2 bg-ink text-paper" style="--sticker-rot:5deg">We come to you</span>
       </div>
     </div>
   </section>
 
-  <!-- DRIPS LOOKBOOK -->
-  <section data-theme="light" class="section" style="background:var(--color-linen)">
-    <div class="wrap">
-      <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
-        <div data-reveal>
-          <p class="eyebrow mb-4">The drip menu</p>
-          <h2 class="display-2">Twelve blends,<br />mixed for how you feel.</h2>
+  <!-- ============ MARQUEE ============ -->
+  <section class="section-dark bg-mesh-deep overflow-hidden py-5 marquee-band" data-bg="#14201A">
+    <div class="marquee-track items-center">
+      {[...drips, ...drips].map((d) => (
+        <span class="flex items-center whitespace-nowrap">
+          <span class="font-display text-xl font-medium text-paper/90 px-7">{d.name}</span>
+          <svg width="13" height="16" viewBox="0 0 24 30" fill="none" class="shrink-0" aria-hidden="true"><path d="M12 2C12 2 4 14 4 20a8 8 0 0 0 16 0C20 14 12 2 12 2Z" fill="var(--color-gold-soft)" opacity="0.7"/></svg>
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ DRIP MENU "WORLDS" ============ -->
+  <section class="relative wrap py-24 sm:py-32" data-bg="#FBF4E6">
+    <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+      <div data-reveal>
+        <p class="font-hand text-3xl text-gold-deep sm:text-4xl">Pick your potion</p>
+        <h2 class="display-lg mt-1 text-balance">Twelve blends,<br />mixed for how you feel.</h2>
+      </div>
+      <a href="/drips" class="link-hand" data-reveal style="--reveal-delay:80ms">All twelve blends
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {cardDrips.map((d, i) => (
+        <a href={`/drips#${d.slug}`} class="card-pop btn-press group relative overflow-hidden p-7" data-reveal style={`--reveal-delay:${(i % 3) * 80}ms; --card-c:${d.color}; --pop-rot:${i % 2 === 0 ? "-1deg" : "1deg"}`}>
+          <span class="absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-20 transition-opacity duration-500 group-hover:opacity-40" style={`background:${d.color}`} aria-hidden="true"></span>
+          <span class="relative grid h-12 w-12 place-items-center rounded-full" style={`background:color-mix(in oklab, ${d.color} 18%, white); color:${d.color}`}>
+            <svg width="22" height="26" viewBox="0 0 24 30" fill="none"><path d="M12 2C12 2 4 14 4 20a8 8 0 0 0 16 0C20 14 12 2 12 2Z" fill="currentColor"/></svg>
+          </span>
+          <h3 class="display-sm mt-5 text-ink">{d.name}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-mist">{d.treats}</p>
+          <span class="chip mt-5" style={`border-color:color-mix(in oklab, ${d.color} 45%, transparent); color:${d.color}`}>{d.tag}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ DRIP JOURNEY (signature scroll) ============ -->
+  <div data-bg="#FFFDF7" class="bg-paper"><DripJourney /></div>
+
+  <!-- ============ STATS ============ -->
+  <section class="section-dark bg-mesh-deep relative overflow-hidden py-20 sm:py-24" data-bg="#14201A">
+    <span class="font-hand absolute right-6 top-8 text-3xl text-gold-soft/70 -rotate-6 hidden sm:block" aria-hidden="true">feel the difference</span>
+    <div class="wrap grid gap-10 sm:grid-cols-3 text-center sm:text-left">
+      {stats.map((s, i) => (
+        <div data-reveal style={`--reveal-delay:${i * 90}ms`}>
+          <p class="display-lg text-gold-soft"><span data-count={s.count} data-suffix={s.suffix}>0{s.suffix}</span></p>
+          <p class="mt-2 text-sm leading-snug text-paper/70 max-w-[22ch] mx-auto sm:mx-0">{s.label}</p>
         </div>
-        <a href="/drips" class="link-underline" data-reveal data-reveal-delay="1">All twelve blends
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="relative wrap py-24 sm:py-32" data-bg="#FBF4E6">
+    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div data-reveal>
+        <p class="font-hand text-3xl text-gold-deep sm:text-4xl">More than a drip</p>
+        <h2 class="display-lg mt-1 text-balance">A whole menu of medical wellness.</h2>
+        <p class="lede mt-5 text-pretty">From aesthetics to hormone therapy and medically supervised weight loss, all under one roof, all overseen by our medical team.</p>
+        <a href="/services" class="link-hand mt-7 inline-flex">Explore all services
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
-
-      <!-- feature -->
-      <a href={`/drips#${feature.slug}`} class="drip-feature group" data-reveal>
-        <div class="drip-feature__media">
-          <img src="/images/glow.jpg" alt={feature.name} loading="lazy" />
-        </div>
-        <div class="drip-feature__body">
-          <p class="eyebrow mb-3">Most loved</p>
-          <h3 class="display-2 text-ink">{feature.name}</h3>
-          <p class="text-mute mt-3 max-w-[38ch]">{feature.treats}</p>
-          <div class="flex flex-wrap gap-2 mt-6">
-            {feature.ingredients.map((ing) => <span class="chip">{ing}</span>)}
-          </div>
-          <span class="link-underline mt-8 inline-flex w-max">View this blend
-            <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <!-- colour cards -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-        {cardDrips.map((d, i) => (
-          <a href={`/drips#${d.slug}`} class="drip-card" style={`--card-c:${d.color}`} data-reveal data-reveal-delay={(i % 3) + 1}>
-            <span class="drip-card__seam"></span>
-            <div class="drip-card__body">
-              <span class="fig-index" style={`color:${d.color}`}>{String(i + 1).padStart(2, "0")}</span>
-              <h3 class="display-3 text-ink">{d.name}</h3>
-              <p class="text-mute text-sm leading-relaxed">{d.treats}</p>
-              <span class="chip self-start mt-auto" style={`border-color:color-mix(in oklab, ${d.color} 45%, transparent); color:${d.color}`}>{d.tag}</span>
+      <div class="grid gap-4 sm:grid-cols-2" data-reveal="right" style="--reveal-delay:80ms">
+        {groups.map((g, i) => {
+          const c = ["var(--color-aqua)","var(--color-blush)","var(--color-sun)","var(--color-sage)"][i];
+          return (
+            <div class="card-pop p-6" style={`--pop-rot:${i % 2 === 0 ? "-1deg" : "1deg"}`}>
+              <span class="block h-1.5 w-10 rounded-full" style={`background:${c}`}></span>
+              <h3 class="display-sm mt-4 text-ink">{g}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-mist">{services.filter((s) => s.group === g).map((s) => s.name).join(", ")}</p>
             </div>
-          </a>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>
 
-  <!-- DRIP FINDER (the one deep band) -->
-  <section data-theme="dark" class="section-air bg-mesh-deep relative overflow-hidden">
-    <span class="ghost-num absolute -bottom-8 -right-3 select-none leading-none" aria-hidden="true">IV</span>
+  <!-- ============ FOUNDER ============ -->
+  <section class="relative overflow-hidden py-24 sm:py-28" data-bg="#FDF1DA" style="background:#FDF1DA">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+      <div class="relative mx-auto w-full max-w-sm" data-reveal="left">
+        <div class="blob-b absolute -inset-3 bg-gold-soft" aria-hidden="true"></div>
+        <img src="/images/patricia.jpg" alt="Patricia Miller, founder of ThrIVe" class="blob-b relative aspect-square w-full object-cover" width="520" height="520" loading="lazy" data-parallax="10" />
+        <span class="sticker absolute -right-2 bottom-4 bg-paper text-gold-deep" style="--sticker-rot:5deg">Founder & nurse</span>
+      </div>
+      <div data-reveal style="--reveal-delay:80ms">
+        <p class="eyebrow">The founder</p>
+        <blockquote class="font-display text-2xl font-medium leading-snug text-ink mt-4 sm:text-3xl text-balance">"We listen to you. You're our priority, never a number on a clipboard."</blockquote>
+        <p class="mt-6 max-w-xl leading-relaxed text-mist">Patricia Miller, MSN, ARNP, FNP-BC founded ThrIVe in 2020, shortly after surgery to remove a benign brain tumor. That turning point inspired a place where her community could truly invest in their health. She brings more than 15 years in critical care and preventative medicine.</p>
+        <a href="/about" class="link-hand mt-7 inline-flex">Read her story
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DRIP FINDER ============ -->
+  <section class="section-dark bg-mesh-deep relative overflow-hidden py-24 sm:py-32" data-bg="#14201A">
     <div class="wrap relative z-10"><DripFinder /></div>
   </section>
 
-  <!-- SERVICES -->
-  <section data-theme="light" class="section relative overflow-hidden bg-aqua-wash">
-    <div class="wrap relative">
-      <span class="ghost-num absolute -top-10 right-0 hidden lg:block" aria-hidden="true">+</span>
-      <div class="max-w-xl mb-10" data-reveal>
-        <p class="eyebrow mb-4">Beyond the drip</p>
-        <h2 class="display-2">A full menu of medical wellness.</h2>
-        <p class="lede mt-5">From aesthetics to hormone therapy and medically supervised weight loss, all under one roof, all overseen by our medical team.</p>
-      </div>
-      <div data-reveal data-reveal-delay="1">
-        {groups.map((g) => (
-          <div class="row !grid-cols-[auto_1fr] sm:!grid-cols-[14rem_1fr]">
-            <span class="display-3 text-ink">{g}</span>
-            <span class="text-mute text-sm leading-relaxed pt-1.5">{services.filter((s) => s.group === g).map((s) => s.name).join(" · ")}</span>
-            <span class="row__rule"></span>
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="relative wrap py-24 sm:py-32" data-bg="#FBF4E6">
+    <div class="mx-auto max-w-2xl text-center mb-14" data-reveal>
+      <p class="font-hand text-3xl text-gold-deep sm:text-4xl">Loved in Orlando</p>
+      <h2 class="display-lg mt-1 text-balance">People keep coming back.</h2>
+    </div>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {testimonials.map((t, i) => (
+        <figure class="card-pop p-7" data-reveal style={`--reveal-delay:${(i % 3) * 80}ms; --pop-rot:${i % 2 === 0 ? "-1.2deg" : "1.2deg"}`}>
+          <div class="flex gap-1 text-gold mb-3" aria-hidden="true">
+            {[0,1,2,3,4].map(() => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17.8 5.9 20.4 7.2 13.7l-5-4.7 6.8-.8L12 2Z"/></svg>)}
           </div>
-        ))}
-      </div>
-      <a href="/services" class="link-underline mt-10 inline-flex" data-reveal>Explore all services
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+          <blockquote class="leading-relaxed text-ink">{t.quote}</blockquote>
+          <figcaption class="mt-4 font-display font-semibold text-sm text-mist">{t.name}</figcaption>
+        </figure>
+      ))}
     </div>
   </section>
 
-  <!-- FOUNDER -->
-  <section data-theme="light" class="section">
-    <div class="wrap grid-12 items-center gap-y-10">
-      <div class="lg:col-span-5 order-2 lg:order-1" data-reveal-img>
-        <div class="frame aspect-[4/5] max-w-md">
-          <img src="/images/patricia.jpg" alt="Patricia Miller, founder of ThrIVe" class="w-full h-full object-cover" loading="lazy" data-parallax="10" />
-        </div>
-      </div>
-      <div class="lg:col-span-7 lg:pl-6 order-1 lg:order-2" data-reveal>
-        <p class="eyebrow mb-5">The founder</p>
-        <div class="rule-foil mb-6"></div>
-        <blockquote class="pullquote text-ink">"We listen to you. You're our priority. More time with your provider, a plan built around you."</blockquote>
-        <p class="text-mute mt-7 max-w-xl">Patricia Miller, MSN, ARNP, FNP-BC founded ThrIVe in 2020, shortly after surgery to remove a benign brain tumor. That turning point inspired a place where her community could truly invest in their health. She brings more than 15 years in critical care and preventative medicine.</p>
-        <a href="/about" class="link-underline mt-7 inline-flex">Read her story
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOUNGE BAND (full-bleed duotone breath) -->
-  <section data-theme="dark" class="band">
-    <img src="/images/hero-lounge.jpg" alt="The ThrIVe lounge in Orlando" loading="lazy" />
-    <div class="band__duo"></div>
-    <div class="band__scrim"></div>
-    <div class="wrap relative z-10 pb-14 sm:pb-16">
-      <p class="eyebrow mb-4" data-reveal>The lounge</p>
-      <blockquote class="pullquote text-ice max-w-[22ch]" data-reveal data-reveal-delay="1">Quiet rooms, warm light, and a team that actually has the time.</blockquote>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section data-theme="light" class="section bg-vellum">
-    <div class="wrap-narrow">
-      <div class="text-center mb-12" data-reveal>
-        <p class="eyebrow is-center justify-center mb-4">In their words</p>
-        <h2 class="display-2">Orlando keeps coming back.</h2>
-      </div>
-      <div class="columns-1 md:columns-2 gap-5 [&>*]:mb-5">
-        {testimonials.map((t, i) => (
-          <figure class="card break-inside-avoid" data-reveal data-reveal-delay={i % 2}>
-            <p class="text-ink leading-relaxed">{t.quote}</p>
-            <figcaption class="mt-4 text-sm text-mute flex items-center gap-2"><span class="w-5 h-px bg-brass"></span>{t.name}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section data-theme="dark" class="section-air bg-mesh-deep relative overflow-hidden">
-    <span class="ghost-num absolute -bottom-10 -left-4 select-none leading-none" aria-hidden="true">IV</span>
-    <div class="wrap-narrow text-center relative z-10">
-      <p class="eyebrow is-center justify-center mb-5" data-reveal>Ready when you are</p>
-      <h2 class="display-1" data-reveal data-reveal-delay="1">Feel like yourself again.</h2>
-      <p class="lede mx-auto mt-6" data-reveal data-reveal-delay="2" style="margin-inline:auto">Book a visit at the lounge, or have us come to you with a mobile house call across Orlando.</p>
-      <div class="flex flex-wrap gap-4 justify-center mt-9" data-reveal data-reveal-delay="3">
-        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book your visit</a>
-        <a href="/contact" class="btn btn-ghost">Request a house call</a>
+  <!-- ============ CTA ============ -->
+  <section class="section-dark bg-mesh-deep relative overflow-hidden py-24 sm:py-32 text-center" data-bg="#14201A">
+    <span class="sticker absolute left-8 top-12 bg-gold text-ink hidden sm:inline-block" style="--sticker-rot:-7deg" data-reveal>No clipboard rush</span>
+    <div class="wrap-narrow relative z-10">
+      <p class="eyebrow" data-reveal>Ready when you are</p>
+      <h2 class="display-lg mt-3 text-balance" data-reveal style="--reveal-delay:60ms">Feel like yourself again.</h2>
+      <p class="lede mx-auto mt-5 max-w-xl text-pretty" data-reveal style="--reveal-delay:120ms">Book a visit at the lounge, or have us come to you with a mobile house call across Orlando.</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4" data-reveal style="--reveal-delay:180ms">
+        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-primary btn-press">Book your visit</a>
+        <a href="/contact" class="btn-ghost btn-press !text-paper !border-white/25">Request a house call</a>
       </div>
     </div>
   </section>

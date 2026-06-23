@@ -1,75 +1,67 @@
 ---
 import Base from "../layouts/Base.astro";
 import { biz } from "../data/site";
-
 const tiers = [
-  { name: "ThrIVe One", n: "01", drips: "1 drip / month", popular: false,
+  { name: "ThrIVe One", drips: "1 drip / month", popular: false, c: "var(--color-aqua)",
     perks: ["One signature IV drip each month", "Member pricing on all services", "Priority booking"] },
-  { name: "ThrIVe Two", n: "02", drips: "2 drips / month", popular: true,
+  { name: "ThrIVe Two", drips: "2 drips / month", popular: true, c: "var(--color-gold)",
     perks: ["Two signature IV drips each month", "10% off add-on vitamins and shots", "Member pricing on all services", "Priority booking and rollover"] },
-  { name: "ThrIVe Four", n: "03", drips: "4 drips / month", popular: false,
+  { name: "ThrIVe Four", drips: "4 drips / month", popular: false, c: "var(--color-blush)",
     perks: ["Four signature IV drips each month", "Complimentary vitamin shot monthly", "Best member pricing on aesthetics", "Priority booking and rollover", "Bring-a-friend guest pass"] },
 ];
 const extras = [
-  { n: "01", title: "ThrIVe Party", blurb: "Bring the lounge to your celebration: birthdays, bridal weekends, game day. We set up, you glow." },
-  { n: "02", title: "Corporate Wellness", blurb: "Keep your team performing at their best with on-site hydration days and recovery for busy offices." },
+  { title: "ThrIVe Party", blurb: "Bring the lounge to your celebration: birthdays, bridal weekends, game day. We set up, you glow.", c: "var(--color-blush)" },
+  { title: "Corporate Wellness", blurb: "Keep your team performing at their best with on-site hydration days for busy offices.", c: "var(--color-aqua)" },
 ];
 ---
 <Base title="Memberships" description="ThrIVe membership plans, parties and corporate wellness, make feeling your best a habit.">
-  <section data-hero data-theme="light" class="hero">
-    <div class="wrap grid-12 items-center">
-      <div class="lg:col-span-5 order-2 lg:order-1 mt-10 lg:mt-0" data-reveal-img>
-        <div class="frame aspect-[4/5]">
-          <img src="/images/lounge-detail.jpg" alt="The ThrIVe lounge" class="w-full h-full object-cover" fetchpriority="high" />
-        </div>
-      </div>
-      <div class="lg:col-span-7 order-1 lg:order-2 lg:pl-6">
-        <p class="eyebrow mb-5" data-reveal>Memberships</p>
-        <h1 class="display-1" data-reveal data-reveal-delay="1">Make wellness <span class="accent">a habit.</span></h1>
-        <p class="lede mt-7" data-reveal data-reveal-delay="2">Monthly drip plans with member pricing across every service. Pause or change any time, your wellness, your pace.</p>
-        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary mt-9" data-reveal data-reveal-delay="3">Become a member <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
+  <!-- hero -->
+  <section class="grain relative overflow-hidden pt-32 pb-10 sm:pt-40" data-bg="#FBF4E6">
+    <div class="aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative text-center max-w-3xl mx-auto">
+      <p class="font-hand text-3xl text-gold-deep sm:text-4xl" data-reveal>Make it a habit</p>
+      <h1 class="display-xl mt-1 text-balance" data-reveal style="--reveal-delay:60ms">Wellness, <span class="text-gold-deep">on repeat.</span></h1>
+      <p class="lede mt-6 mx-auto max-w-xl text-pretty" data-reveal style="--reveal-delay:130ms">Monthly drip plans with member pricing across every service. Pause or change any time, your wellness, your pace.</p>
     </div>
   </section>
 
-  <section data-theme="light" class="section !pt-4">
-    <div class="wrap grid lg:grid-cols-3 gap-5 items-stretch">
-      {tiers.map((t) => (
-        <div class:list={["card flex flex-col", t.popular && "is-dark"]} data-theme={t.popular ? "dark" : "light"} data-reveal style={t.popular ? "background:var(--color-deep)" : ""}>
-          <div class="card-top">
-            <p class="eyebrow">{t.popular ? "Most chosen" : "Plan"}</p>
-          </div>
-          <h2 class="display-3 mt-5">{t.name}</h2>
-          <p class="text-sm mt-1" class:list={[t.popular ? "text-ice/60" : "text-mute"]}>{t.drips}</p>
-          <ul class="space-y-3 my-8 grow">
+  <!-- tiers -->
+  <section class="relative wrap pb-20 sm:pb-24" data-bg="#FBF4E6">
+    <div class="grid gap-5 lg:grid-cols-3 items-stretch">
+      {tiers.map((t, i) => (
+        <div class:list={["relative flex flex-col rounded-[24px] p-8", t.popular ? "section-dark bg-mesh-deep lg:-mt-4 lg:mb-4" : "card-pop"]} data-reveal style={`--reveal-delay:${i * 80}ms`}>
+          {t.popular && <span class="sticker absolute -top-4 right-6 bg-gold text-ink" style="--sticker-rot:5deg">Most loved</span>}
+          <span class="block h-1.5 w-12 rounded-full" style={`background:${t.c}`}></span>
+          <h2 class:list={["display-sm mt-4", t.popular ? "text-paper" : "text-ink"]}>{t.name}</h2>
+          <p class:list={["text-sm mt-1", t.popular ? "text-paper/65" : "text-mist"]}>{t.drips}</p>
+          <ul class="my-7 space-y-3 grow">
             {t.perks.map((p) => (
-              <li class="flex items-start gap-3 text-sm">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 mt-0.5 accent"><path d="M20 6L9 17l-5-5"/></svg>
-                <span class:list={[t.popular ? "text-ice/85" : "text-mute"]}>{p}</span>
+              <li class="flex items-start gap-2.5 text-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={t.popular ? "var(--color-gold-soft)" : "var(--color-gold)"} stroke-width="2.4" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>
+                <span class:list={[t.popular ? "text-paper/85" : "text-mist"]}>{p}</span>
               </li>
             ))}
           </ul>
-          <a href={biz.bookingUrl} target="_blank" rel="noopener" class:list={["btn justify-center", t.popular ? "btn-primary" : "btn-ghost"]}>Become a member</a>
+          <a href={biz.bookingUrl} target="_blank" rel="noopener" class:list={["btn-press justify-center", t.popular ? "btn-primary" : "btn-ghost"]}>Become a member</a>
         </div>
       ))}
     </div>
-    <p class="wrap text-center text-sm text-mute mt-6">Pricing shared in consultation. Call <a href={biz.phoneHref} class="accent">{biz.phone}</a> for current rates.</p>
+    <p class="text-center text-sm text-mist mt-6">Pricing shared in consultation. Call <a href={biz.phoneHref} class="text-gold-deep font-semibold">{biz.phone}</a> for current rates.</p>
   </section>
 
-  <section data-theme="light" class="section">
+  <!-- extras -->
+  <section class="relative overflow-hidden py-24 sm:py-28" data-bg="#FDF1DA" style="background:#FDF1DA">
     <div class="wrap">
-      <h2 class="display-2 mb-10 max-w-lg" data-reveal>More ways to thrive together.</h2>
-      <div data-reveal data-reveal-delay="1">
-        {extras.map((e) => (
-          <div class="row !grid-cols-[1fr_auto] !items-start">
-            <div class="min-w-0">
-              <h3 class="display-3 text-ink">{e.title}</h3>
-              <p class="text-mute text-sm mt-2 max-w-[56ch]">{e.blurb}</p>
-            </div>
-            <a href="/contact" class="link-underline self-center hidden sm:inline-flex">Plan it
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <h2 class="display-lg max-w-lg text-balance" data-reveal>More ways to thrive together.</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-2" data-reveal style="--reveal-delay:80ms">
+        {extras.map((e, i) => (
+          <div class="card-pop p-8" style={`--pop-rot:${i % 2 === 0 ? "-1deg" : "1deg"}`}>
+            <span class="block h-1.5 w-12 rounded-full" style={`background:${e.c}`}></span>
+            <h3 class="display-sm mt-4 text-ink">{e.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-mist">{e.blurb}</p>
+            <a href="/contact" class="link-hand mt-5 inline-flex text-sm">Plan it with us
+              <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
-            <span class="row__rule"></span>
           </div>
         ))}
       </div>

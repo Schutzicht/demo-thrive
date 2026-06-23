@@ -3,111 +3,102 @@ import Base from "../layouts/Base.astro";
 import { biz, faqs } from "../data/site";
 ---
 <Base title="Contact" description="Visit ThrIVe Hydration & Spa in Orlando, book online, or request a mobile house call.">
-  <section data-hero data-theme="light" class="hero">
-    <div class="wrap grid-12 items-center">
-      <div class="lg:col-span-7">
-        <p class="eyebrow mb-5" data-reveal>Visit & book</p>
-        <h1 class="display-1" data-reveal data-reveal-delay="1">Come thrive <span class="accent">with us.</span></h1>
-        <p class="lede mt-7" data-reveal data-reveal-delay="2">Drop into the lounge in Orlando, book online in a tap, or have us come to you with a mobile house call.</p>
-        <div class="flex flex-wrap items-center gap-5 mt-9" data-reveal data-reveal-delay="3">
-          <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book online <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href={biz.phoneHref} class="link-underline">Call {biz.phone}</a>
+  <!-- hero -->
+  <section class="grain relative overflow-hidden pt-32 pb-12 sm:pt-40" data-bg="#FBF4E6">
+    <div class="aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+      <div>
+        <span class="sticker bg-sage text-paper" style="--sticker-rot:-3deg" data-reveal>Open today · 9–6</span>
+        <h1 class="display-xl mt-5 text-balance" data-reveal style="--reveal-delay:60ms">Come thrive <span class="text-gold-deep">with us.</span></h1>
+        <p class="lede mt-6 max-w-xl text-pretty" data-reveal style="--reveal-delay:130ms">Drop into the lounge in Orlando, book online in a tap, or have us come to you with a mobile house call.</p>
+        <div class="mt-8 flex flex-wrap gap-4" data-reveal style="--reveal-delay:200ms">
+          <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-primary btn-press">Book online</a>
+          <a href={biz.phoneHref} class="btn-ghost btn-press">Call {biz.phone}</a>
         </div>
       </div>
-      <div class="lg:col-span-5 mt-10 lg:mt-0" data-reveal-img>
-        <div class="frame aspect-[4/5]">
-          <img src="/images/mobile-care.jpg" alt="ThrIVe mobile house call" class="w-full h-full object-cover" fetchpriority="high" />
-        </div>
+      <div class="relative mx-auto w-full max-w-sm" data-reveal="scale" style="--reveal-delay:120ms">
+        <div class="blob-a absolute -inset-3 bg-gold-soft" aria-hidden="true"></div>
+        <img src="/images/mobile-care.jpg" alt="ThrIVe mobile house call" class="blob-a relative aspect-square w-full object-cover" width="520" height="520" loading="eager" data-parallax="12" />
+        <span class="sticker floaty absolute -left-2 bottom-6 bg-ink text-paper" style="--sticker-rot:-6deg">We come to you</span>
       </div>
     </div>
   </section>
 
-  <section data-theme="light" class="section !pt-2">
-    <div class="wrap grid lg:grid-cols-[1fr_1.1fr] gap-12">
-      <!-- details -->
-      <div data-reveal>
-        <a href={biz.mapUrl} target="_blank" rel="noopener" class="row !grid-cols-[auto_1fr] group">
-          <span class="fig-index self-center">→</span>
-          <span><span class="display-3 text-ink block">Find the lounge</span><span class="text-mute text-sm">{biz.address}</span></span>
-          <span class="row__rule"></span>
-        </a>
-        <a href={biz.phoneHref} class="row !grid-cols-[auto_1fr]">
-          <span class="fig-index self-center">→</span>
-          <span><span class="display-3 text-ink block">Call or text</span><span class="text-mute text-sm">{biz.phone}</span></span>
-          <span class="row__rule"></span>
-        </a>
-        <a href={`mailto:${biz.email}`} class="row !grid-cols-[auto_1fr]">
-          <span class="fig-index self-center">→</span>
-          <span><span class="display-3 text-ink block">Email us</span><span class="text-mute text-sm">{biz.email}</span></span>
-          <span class="row__rule"></span>
-        </a>
-        <div class="mt-10">
-          <p class="eyebrow mb-4">Hours</p>
+  <!-- details + form -->
+  <section class="relative wrap pb-20 sm:pb-24" data-bg="#FBF4E6">
+    <div class="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
+      <div class="grid gap-4 content-start" data-reveal>
+        {[
+          { t: "Find the lounge", v: biz.address, href: biz.mapUrl, ext: true, c: "var(--color-aqua)" },
+          { t: "Call or text", v: biz.phone, href: biz.phoneHref, ext: false, c: "var(--color-blush)" },
+          { t: "Email us", v: biz.email, href: `mailto:${biz.email}`, ext: false, c: "var(--color-sun)" },
+        ].map((x) => (
+          <a href={x.href} target={x.ext ? "_blank" : undefined} rel={x.ext ? "noopener" : undefined} class="card-pop p-6 flex items-center gap-4">
+            <span class="grid h-11 w-11 place-items-center rounded-full shrink-0" style={`background:color-mix(in oklab, ${x.c} 18%, white); color:${x.c}`}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <span><span class="display-sm text-ink block" style="font-size:1.15rem">{x.t}</span><span class="text-sm text-mist">{x.v}</span></span>
+          </a>
+        ))}
+        <div class="card-pop p-6">
+          <p class="font-display font-semibold text-ink mb-3">Hours</p>
           {biz.hours.map((h) => (
-            <div class="flex justify-between gap-4 py-2.5 border-t border-[var(--hair)] text-sm">
-              <span class="text-mute">{h.d}</span><span class="text-ink font-medium">{h.t}</span>
+            <div class="flex justify-between gap-4 py-2 border-t hairline text-sm first:border-0">
+              <span class="text-mist">{h.d}</span><span class="text-ink font-medium">{h.t}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <!-- booking + form -->
-      <div data-reveal data-reveal-delay="1">
-        <div data-theme="dark" class="bg-mesh-deep p-8 sm:p-10 rounded-[4px] mb-5">
-          <p class="eyebrow mb-4">Fastest way in</p>
-          <h2 class="display-3 text-ice">Book online, instantly.</h2>
+      <div data-reveal style="--reveal-delay:80ms">
+        <div class="section-dark bg-mesh-deep rounded-[24px] p-8 sm:p-10 mb-5">
+          <p class="font-hand text-2xl text-gold-soft">Fastest way in</p>
+          <h2 class="display-sm text-paper mt-1">Book online, instantly.</h2>
           <p class="lede mt-3">Pick your drip or service and a time that works. Prefer a house call? Just ask.</p>
-          <div class="flex flex-wrap gap-4 mt-7">
-            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book your visit</a>
-            <a href="/drip-finder" class="link-underline">Not sure? Find my drip</a>
+          <div class="mt-6 flex flex-wrap gap-4">
+            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-primary btn-press">Book your visit</a>
+            <a href="/drip-finder" class="link-hand !text-paper" style="border-color:var(--color-gold)">Not sure? Find my drip</a>
           </div>
         </div>
-
-        <form class="card" id="contact-form">
-          <p class="display-3 text-ink">Send a message</p>
-          <p class="text-sm text-mute mb-6 mt-1">We'll get back to you within one business day.</p>
+        <form class="card-pop p-8" id="contact-form">
+          <p class="display-sm text-ink" style="font-size:1.3rem">Send a message</p>
+          <p class="text-sm text-mist mb-6 mt-1">We'll get back to you within one business day.</p>
           <div class="grid sm:grid-cols-2 gap-4">
-            <label class="block"><span class="text-sm font-medium text-ink">Name</span>
-              <input required name="name" class="field" placeholder="Your name" /></label>
-            <label class="block"><span class="text-sm font-medium text-ink">Phone</span>
-              <input name="phone" class="field" placeholder="(407) 000-0000" /></label>
+            <label class="block"><span class="text-sm font-semibold text-ink">Name</span><input required name="name" class="field" placeholder="Your name" /></label>
+            <label class="block"><span class="text-sm font-semibold text-ink">Phone</span><input name="phone" class="field" placeholder="(407) 000-0000" /></label>
           </div>
-          <label class="block mt-4"><span class="text-sm font-medium text-ink">Email</span>
-            <input required type="email" name="email" class="field" placeholder="you@email.com" /></label>
-          <label class="block mt-4"><span class="text-sm font-medium text-ink">How can we help?</span>
-            <textarea name="msg" rows="4" class="field resize-none" placeholder="Tell us what you're after: a drip, a service, a house call."></textarea></label>
-          <button type="submit" class="btn btn-primary w-full justify-center mt-5">Send message</button>
-          <p id="form-note" class="text-sm text-center mt-3 hidden accent font-medium">Thanks. This is a demo form; on the live site it lands in your inbox.</p>
+          <label class="block mt-4"><span class="text-sm font-semibold text-ink">Email</span><input required type="email" name="email" class="field" placeholder="you@email.com" /></label>
+          <label class="block mt-4"><span class="text-sm font-semibold text-ink">How can we help?</span><textarea name="msg" rows="4" class="field resize-none" placeholder="Tell us what you're after: a drip, a service, a house call."></textarea></label>
+          <button type="submit" class="btn-primary btn-press w-full justify-center mt-5">Send message</button>
+          <p id="form-note" class="text-sm text-center mt-3 hidden text-gold-deep font-semibold">Thanks! This is a demo form; on the live site it lands in your inbox.</p>
         </form>
       </div>
     </div>
   </section>
 
   <!-- map -->
-  <section data-theme="light" class="pb-20">
-    <div class="wrap">
-      <div class="frame" data-reveal>
-        <iframe title="ThrIVe Hydration & Spa map" width="100%" height="420" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=7067+Narcoossee+Rd,+Orlando,+FL+32822&output=embed"></iframe>
-      </div>
+  <section class="relative wrap pb-20" data-bg="#FBF4E6">
+    <div class="overflow-hidden rounded-[28px] shadow-lg" data-reveal>
+      <iframe title="ThrIVe Hydration & Spa map" width="100%" height="420" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=7067+Narcoossee+Rd,+Orlando,+FL+32822&output=embed"></iframe>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section data-theme="light" class="section" style="background:var(--color-vellum)">
+  <section class="relative overflow-hidden py-24 sm:py-28" data-bg="#FDF1DA" style="background:#FDF1DA">
     <div class="wrap-narrow">
       <div class="mb-10" data-reveal>
-        <p class="eyebrow mb-4">Good to know</p>
-        <h2 class="display-2">Frequently asked.</h2>
+        <p class="font-hand text-3xl text-gold-deep sm:text-4xl">Good to know</p>
+        <h2 class="display-lg mt-1">Frequently asked.</h2>
       </div>
-      <div data-reveal data-reveal-delay="1">
+      <div class="space-y-3" data-reveal style="--reveal-delay:80ms">
         {faqs.map((f) => (
-          <details class="faq">
-            <summary class="flex items-center justify-between gap-4 py-5 cursor-pointer list-none border-t border-[var(--hair)]">
-              <span class="display-3 text-ink">{f.q}</span>
-              <span class="faq-ic shrink-0 text-aqua transition-transform"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></span>
+          <details class="faq card-pop px-6">
+            <summary class="flex items-center justify-between gap-4 py-5 cursor-pointer list-none">
+              <span class="display-sm text-ink" style="font-size:1.15rem">{f.q}</span>
+              <span class="faq-ic grid h-8 w-8 place-items-center rounded-full text-gold-deep shrink-0 transition-transform" style="background:var(--color-gold-soft)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>
             </summary>
-            <p class="text-mute leading-relaxed pb-6 max-w-[64ch]">{f.a}</p>
+            <p class="text-mist leading-relaxed pb-6 max-w-[64ch]">{f.a}</p>
           </details>
         ))}
       </div>
@@ -116,13 +107,12 @@ import { biz, faqs } from "../data/site";
 </Base>
 
 <style>
-  .field { width: 100%; margin-top: 0.4rem; padding: 0.75rem 1rem; border-radius: var(--radius-btn); background: var(--color-clinic); border: 1px solid var(--hair); color: var(--color-ink); font-size: 0.95rem; transition: border-color 0.3s; font-family: inherit; }
+  .field { width: 100%; margin-top: 0.4rem; padding: 0.75rem 1rem; border-radius: 14px; background: var(--color-cream); border: 1.5px solid color-mix(in oklab, var(--color-ink) 12%, transparent); color: var(--color-ink); font-size: 0.95rem; transition: border-color 0.3s; font-family: inherit; }
   .field::placeholder { color: var(--color-mist); }
-  .field:focus { outline: none; border-color: var(--color-aqua); }
+  .field:focus { outline: none; border-color: var(--color-gold); }
   .faq[open] .faq-ic { transform: rotate(45deg); }
   .faq summary::-webkit-details-marker { display: none; }
 </style>
-
 <script>
   document.getElementById("contact-form")?.addEventListener("submit", (e) => {
     e.preventDefault();

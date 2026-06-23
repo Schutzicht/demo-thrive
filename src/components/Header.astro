@@ -2,22 +2,21 @@
 import { nav, biz } from "../data/site";
 const path = Astro.url.pathname;
 ---
-<header id="site-header">
-  <div class="wrap">
-    <div class="nav-bar">
-      <a href="/" class="nav-wordmark" aria-label={biz.name}>thr<span class="brand-iv">IV</span>e</a>
+<header id="site-header" class="fixed inset-x-0 top-0 z-50">
+  <div class="wrap-wide pt-3 sm:pt-4">
+    <div class="pill-nav flex items-center justify-between gap-3 rounded-full pl-5 pr-2.5 py-2.5">
+      <a href="/" class="font-display text-2xl font-semibold tracking-tight shrink-0" aria-label={biz.name}>thr<span class="text-gold-deep">IV</span>e</a>
 
-      <nav id="nav-links" class="hidden lg:flex items-center relative">
-        <span id="nav-pill" aria-hidden="true"></span>
+      <nav class="hidden lg:flex items-center gap-1">
         {nav.map((n) => (
-          <a href={n.href} class:list={["nav-link", path === n.href && "is-active"]}>{n.label}</a>
+          <a href={n.href} class:list={["nav-link rounded-full px-3.5 py-2 text-sm font-semibold transition-colors", path === n.href && "is-active"]} style="font-family:var(--font-display)">{n.label}</a>
         ))}
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="hidden sm:inline-flex btn btn-primary !py-2.5 !px-5">Book</a>
-        <button id="menu-toggle" class="lg:hidden grid place-items-center w-10 h-10" aria-label="Open menu" aria-expanded="false">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+        <a href={biz.bookingUrl} target="_blank" rel="noopener" class="hidden sm:inline-flex btn-primary btn-press !py-2.5 !px-5 text-sm">Book now</a>
+        <button id="menu-toggle" class="lg:hidden grid place-items-center w-10 h-10 rounded-full" aria-label="Open menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
         </button>
       </div>
     </div>
@@ -25,97 +24,46 @@ const path = Astro.url.pathname;
 </header>
 
 <!-- Mobile sheet -->
-<div id="mobile-menu" data-theme="dark" class="fixed inset-0 z-[60] -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden flex flex-col bg-mesh-deep">
-  <div class="wrap flex items-center justify-between h-[76px]">
-    <span class="nav-wordmark text-ice">thr<span class="brand-iv">IV</span>e</span>
-    <button id="menu-close" class="grid place-items-center w-11 h-11 -mr-2 rounded-full text-ice border border-[var(--hair-dark)]" aria-label="Close menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+<div id="mobile-menu" class="section-dark fixed inset-0 z-[60] -translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden flex flex-col bg-mesh-deep">
+  <div class="wrap flex items-center justify-between h-[68px] pt-2">
+    <span class="font-display text-2xl font-semibold text-paper">thr<span class="text-gold-soft">IV</span>e</span>
+    <button id="menu-close" class="grid place-items-center w-11 h-11 rounded-full border border-white/15 text-paper" aria-label="Close menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
   <nav class="flex-1 flex flex-col justify-center gap-1 wrap">
     {nav.map((n, i) => (
-      <a href={n.href} class="mob-link" style={`transition-delay:${i * 35}ms`}>{n.label}</a>
+      <a href={n.href} class="mob-link font-display text-3xl font-semibold py-2.5 text-paper/90" style={`transition-delay:${i * 35}ms`}>{n.label}</a>
     ))}
   </nav>
   <div class="wrap pb-10 flex flex-col gap-3">
-    <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary w-full justify-center">Book your visit</a>
-    <a href={biz.phoneHref} class="btn btn-ghost w-full justify-center">Call {biz.phone}</a>
+    <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-primary btn-press w-full justify-center">Book your visit</a>
+    <a href={biz.phoneHref} class="btn-ghost btn-press w-full justify-center !text-paper !border-white/25">Call {biz.phone}</a>
   </div>
 </div>
 
 <style>
-  #site-header { position: fixed; inset: 0 0 auto 0; z-index: 50; padding-top: 16px; transition: padding-top 0.4s var(--ease-out); }
-  #site-header.is-scrolled { padding-top: 10px; }
-
-  .nav-bar {
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: 0.5rem 0.5rem 0.5rem 1.4rem;
-    border-radius: 20px;
-    background: color-mix(in oklab, var(--color-clinic) 70%, transparent);
-    backdrop-filter: blur(16px) saturate(1.5);
-    -webkit-backdrop-filter: blur(16px) saturate(1.5);
-    border: 1px solid color-mix(in oklab, #ffffff 55%, transparent);
-    box-shadow: 0 1px 0 color-mix(in oklab, #ffffff 70%, transparent) inset,
-                0 10px 30px -20px rgba(14,23,20,0.4);
-    transition: background 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
-  }
-  #site-header.is-scrolled .nav-bar {
-    background: color-mix(in oklab, var(--color-clinic) 90%, transparent);
-    border-color: color-mix(in oklab, var(--color-mist) 45%, transparent);
-    box-shadow: 0 1px 0 color-mix(in oklab, #ffffff 80%, transparent) inset,
-                0 18px 44px -22px rgba(14,23,20,0.5);
-  }
-
-  .nav-wordmark { font-weight: 500; font-size: 1.25rem; letter-spacing: -0.01em; color: var(--color-ink); flex-shrink: 0; transition: transform 0.4s var(--ease-out); }
-  .nav-wordmark:hover { transform: translateY(-1px); }
-
-  /* sliding indicator behind the links */
-  #nav-pill {
-    position: absolute; top: 50%; left: 0; height: 2.1rem; width: 0; translate: 0 -50%;
-    border-radius: 11px; background: var(--aqua-wash); border: 1px solid color-mix(in oklab, var(--color-aqua) 30%, transparent);
-    opacity: 0; pointer-events: none;
-    transition: left 0.4s var(--ease-emph), width 0.4s var(--ease-emph), opacity 0.3s var(--ease-out);
-  }
-  .nav-link {
-    position: relative; z-index: 1;
-    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.03em; color: var(--color-mute);
-    padding: 0.5rem 0.95rem; border-radius: 11px;
-    transition: color 0.25s var(--ease-out);
-  }
-  @media (hover: hover) { .nav-link:hover { color: var(--color-ink); } }
-  .nav-link.is-active { color: var(--color-aqua); }
-
-  #menu-toggle { color: var(--color-ink); }
-
-  .mob-link { display: flex; align-items: baseline; font-weight: 300; font-size: 2rem; letter-spacing: -0.02em; color: rgba(237,240,236,0.92); padding: 0.6rem 0; border-bottom: 1px solid var(--hair-dark); transition: color 0.3s, padding-left 0.3s var(--ease-out); }
-  @media (hover: hover) { .mob-link:hover { color: var(--color-aqua-light); padding-left: 0.5rem; } }
+  #site-header { transition: transform 0.4s var(--ease-quint); }
+  .nav-link { color: var(--color-ink); }
+  .nav-link:hover { background: color-mix(in oklab, var(--color-ink) 7%, transparent); }
+  .nav-link.is-active { color: var(--color-gold-deep); background: color-mix(in oklab, var(--color-gold) 14%, transparent); }
+  .mob-link { border-bottom: 1px solid rgba(255,255,255,0.1); transition: color 0.3s, padding-left 0.3s var(--ease-quint); }
+  .mob-link:hover { color: var(--color-gold-soft); padding-left: 0.5rem; }
   #mobile-menu.open { transform: translateY(0); }
+  /* hide on scroll-down, show on scroll-up */
+  #site-header.nav-hidden { transform: translateY(-130%); }
 </style>
 
 <script>
   const header = document.getElementById("site-header")!;
-  const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 16);
-  onScroll();
+  let last = 0;
+  const onScroll = () => {
+    const y = window.scrollY;
+    if (y > 200 && y > last) header.classList.add("nav-hidden");
+    else header.classList.remove("nav-hidden");
+    last = y;
+  };
   window.addEventListener("scroll", () => requestAnimationFrame(onScroll), { passive: true });
-
-  // Sliding active/hover indicator
-  const navEl = document.getElementById("nav-links");
-  const pill = document.getElementById("nav-pill");
-  if (navEl && pill) {
-    const links = Array.from(navEl.querySelectorAll<HTMLElement>(".nav-link"));
-    const active = links.find((l) => l.classList.contains("is-active"));
-    const moveTo = (el: HTMLElement | undefined) => {
-      if (!el) { pill.style.opacity = "0"; return; }
-      pill.style.left = el.offsetLeft + "px";
-      pill.style.width = el.offsetWidth + "px";
-      pill.style.opacity = "1";
-    };
-    const settle = () => moveTo(active);
-    requestAnimationFrame(settle);
-    window.addEventListener("resize", () => requestAnimationFrame(settle));
-    links.forEach((l) => l.addEventListener("mouseenter", () => moveTo(l)));
-    navEl.addEventListener("mouseleave", settle);
-  }
 
   const menu = document.getElementById("mobile-menu");
   const toggle = document.getElementById("menu-toggle");

@@ -1,7 +1,6 @@
 ---
-// Drip Finder — pick how you feel, get matched to a real ThrIVe blend. Clean, centered, responsive.
+// Drip Finder — tap how you feel, get matched to a real ThrIVe blend.
 import { biz, drips } from "../data/site";
-
 const moods = [
   { key: "tired",    label: "Drained & low energy", slug: "rapid-recovery" },
   { key: "hungover", label: "Rough morning after",  slug: "hangover-remedy" },
@@ -12,39 +11,39 @@ const moods = [
   { key: "travel",   label: "Jet-lagged",           slug: "travelers-tonic" },
   { key: "pms",      label: "That time of month",   slug: "pms-rescue" },
 ];
-const dripMap = Object.fromEntries(drips.map((d) => [d.slug, { name: d.name, treats: d.treats, ingredients: d.ingredients }]));
+const dripMap = Object.fromEntries(drips.map((d) => [d.slug, { name: d.name, treats: d.treats, ingredients: d.ingredients, color: d.color }]));
 const data = Object.fromEntries(moods.map((m) => [m.key, { ...dripMap[m.slug], slug: m.slug }]));
 ---
 <div class="dripfinder" data-finder data-map={JSON.stringify(data)}>
-  <div class="max-w-2xl mx-auto text-center">
-    <p class="eyebrow is-center justify-center mb-5">The Drip Finder</p>
-    <h2 class="display-2">How are you feeling?</h2>
-    <p class="lede mt-5" style="margin-inline:auto">Tap what's going on and we'll match you to the blend made for it. Your provider always confirms the final call.</p>
+  <div class="mx-auto max-w-2xl text-center">
+    <p class="font-hand text-3xl text-gold-soft sm:text-4xl" data-reveal>Not sure what you need?</p>
+    <h2 class="display-lg mt-1 text-balance" data-reveal style="--reveal-delay:60ms">How are you feeling?</h2>
+    <p class="lede mt-5 text-pretty" data-reveal style="--reveal-delay:120ms">Tap what's going on and we'll match you to the blend made for it. Your provider always confirms the final call.</p>
   </div>
 
-  <div class="flex flex-wrap justify-center gap-2.5 mt-10 max-w-3xl mx-auto">
+  <div class="mt-10 flex flex-wrap justify-center gap-2.5" data-reveal style="--reveal-delay:160ms">
     {moods.map((m) => (
-      <button class="feel" type="button" data-mood={m.key} aria-pressed="false">{m.label}</button>
+      <button class="feel btn-press" type="button" data-mood={m.key} aria-pressed="false">{m.label}</button>
     ))}
   </div>
 
-  <div class="mt-12 max-w-3xl mx-auto" data-theme="light">
-    <div class="result-card">
-      <div data-empty class="text-center py-6">
-        <p class="text-mute">Pick a feeling above and your recommended blend appears here.</p>
+  <div class="mx-auto mt-12 max-w-3xl" data-reveal style="--reveal-delay:200ms">
+    <div class="finder-card relative overflow-hidden">
+      <div data-empty class="py-8 text-center">
+        <span class="text-mist">Pick a feeling above and your perfect blend appears here.</span>
       </div>
       <div data-result hidden>
-        <div class="grid md:grid-cols-[1fr_auto] gap-7 md:gap-10 md:items-center">
+        <div class="grid gap-7 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <p class="eyebrow mb-3">Recommended for you</p>
-            <h3 class="display-2 text-ink" data-name></h3>
-            <p class="text-mute mt-3 max-w-[44ch]" data-treats></p>
-            <div class="flex flex-wrap gap-2 mt-5" data-ings></div>
+            <span class="font-hand text-2xl text-gold-deep">Recommended for you</span>
+            <div class="display-md mt-1 text-ink" data-name></div>
+            <p class="mt-2 max-w-[44ch] text-mist" data-treats></p>
+            <div class="mt-5 flex flex-wrap gap-2" data-ings></div>
           </div>
           <div class="flex flex-col gap-3 md:w-48 shrink-0">
-            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary justify-center">Book this drip</a>
-            <a href="/drips" class="link-underline justify-center" data-detail>See full blend
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn-primary btn-press justify-center">Book this drip</a>
+            <a href="/drips" class="link-hand justify-center" data-detail>See full blend
+              <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
         </div>
@@ -54,34 +53,28 @@ const data = Object.fromEntries(moods.map((m) => [m.key, { ...dripMap[m.slug], s
 </div>
 
 <style>
-  .feel {
-    padding: 0.72rem 1.3rem; border-radius: 999px;
-    border: 1px solid var(--hair-dark); background: rgba(255,255,255,0.04); color: rgba(237,240,236,0.82);
-    font-weight: 500; font-size: 0.9rem; cursor: pointer;
-    transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out), color 0.25s var(--ease-out), transform 0.12s;
-  }
-  @media (hover: hover) { .feel:hover { border-color: var(--color-aqua-light); color: var(--color-ice); background: rgba(255,255,255,0.08); } }
-  .feel:active { transform: scale(0.96); }
-  .feel[aria-pressed="true"] { background: var(--color-aqua); border-color: var(--color-aqua); color: #fff; }
-
-  .result-card { position: relative; background: var(--color-linen); border-radius: 18px; padding: clamp(1.6rem, 3.5vw, 2.6rem); box-shadow: var(--shadow-raise); transition: opacity 0.35s var(--ease-out); }
-  .result-card.is-leaving { opacity: 0; }
-  .result-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(46,157,154,0.45); pointer-events: none; }
-  .result-card.is-pulse::after { animation: ringpulse 0.7s var(--ease-out); }
-  @keyframes ringpulse { 0% { box-shadow: 0 0 0 0 rgba(46,157,154,0.4); } 100% { box-shadow: 0 0 0 16px rgba(46,157,154,0); } }
-  [data-result] { animation: ffade 0.45s var(--ease-out); }
+  .feel { border-radius: 9999px; border: 1.5px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.05); color: color-mix(in oklab, var(--color-paper) 85%, transparent); font-family: var(--font-display); font-weight: 600; font-size: 0.92rem; padding: 0.7rem 1.3rem; transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.18s; }
+  @media (hover: hover) { .feel:hover { border-color: var(--color-gold-soft); color: var(--color-paper); background: rgba(255,255,255,0.1); } }
+  .feel[aria-pressed="true"] { background: var(--color-gold); border-color: var(--color-gold); color: var(--color-ink); }
+  .finder-card { background: var(--color-paper); border-radius: 24px; padding: clamp(1.6rem, 3.5vw, 2.6rem); box-shadow: 0 30px 70px -34px rgba(20,32,26,0.55); transition: opacity 0.35s var(--ease-quint); }
+  .finder-card.is-leaving { opacity: 0; }
+  .finder-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(194,146,46,0.45); pointer-events: none; }
+  .finder-card.is-pulse::after { animation: ringpulse 0.7s var(--ease-quint); }
+  @keyframes ringpulse { 0% { box-shadow: 0 0 0 0 rgba(194,146,46,0.4); } 100% { box-shadow: 0 0 0 18px rgba(194,146,46,0); } }
+  [data-result] { animation: ffade 0.45s var(--ease-quint); }
   @keyframes ffade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { [data-result], .result-card.is-pulse::after { animation: none !important; } }
+  .finder-chip { display: inline-flex; padding: 0.3rem 0.75rem; border-radius: 9999px; border: 1.5px solid color-mix(in oklab, var(--color-ink) 16%, transparent); font-size: 0.78rem; font-weight: 600; color: var(--color-mist); opacity: 0; transform: translateY(6px); animation: chipin 0.4s var(--ease-quint) forwards; }
+  @keyframes chipin { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { [data-result], .finder-card.is-pulse::after, .finder-chip { animation: none !important; opacity: 1 !important; transform: none !important; } }
 </style>
 
 <script>
   document.querySelectorAll<HTMLElement>("[data-finder]").forEach((root) => {
     const map = JSON.parse(root.dataset.map || "{}");
-    const card = root.querySelector<HTMLElement>(".result-card")!;
+    const card = root.querySelector<HTMLElement>(".finder-card")!;
     const empty = root.querySelector<HTMLElement>("[data-empty]")!;
     const result = root.querySelector<HTMLElement>("[data-result]")!;
     const feels = Array.from(root.querySelectorAll<HTMLButtonElement>(".feel"));
-
     const render = (key: string) => {
       const d = map[key];
       if (!d) return;
@@ -89,17 +82,16 @@ const data = Object.fromEntries(moods.map((m) => [m.key, { ...dripMap[m.slug], s
       result.style.animation = "none"; void result.offsetWidth; result.style.animation = "";
       result.querySelector("[data-name]")!.textContent = d.name;
       result.querySelector("[data-treats]")!.textContent = d.treats;
-      result.querySelector("[data-ings]")!.innerHTML = d.ingredients.map((ing: string, n: number) => `<span class="chip" data-in style="animation-delay:${60 + n * 70}ms">${ing}</span>`).join("");
+      result.querySelector("[data-ings]")!.innerHTML = d.ingredients.map((ing: string, n: number) => `<span class="finder-chip" style="animation-delay:${60 + n * 70}ms; border-color:color-mix(in oklab, ${d.color} 45%, transparent); color:${d.color}">${ing}</span>`).join("");
       (result.querySelector("[data-detail]") as HTMLAnchorElement).href = `/drips#${d.slug}`;
       card.classList.remove("is-pulse"); void card.offsetWidth; card.classList.add("is-pulse");
     };
-
     feels.forEach((btn) => {
       btn.addEventListener("click", () => {
         feels.forEach((b) => b.setAttribute("aria-pressed", "false"));
         btn.setAttribute("aria-pressed", "true");
         const key = btn.dataset.mood!;
-        if (result.hidden) { render(key); }
+        if (result.hidden) render(key);
         else { card.classList.add("is-leaving"); setTimeout(() => { render(key); card.classList.remove("is-leaving"); }, 200); }
       });
     });
