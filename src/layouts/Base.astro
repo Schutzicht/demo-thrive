@@ -76,6 +76,23 @@ const fullTitle = title ? `${title} · ${biz.name}` : `${biz.name} | IV Therapy,
           const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
           function raf(t: number) { lenis.raf(t); requestAnimationFrame(raf); }
           requestAnimationFrame(raf);
+
+          // Subtle scroll parallax (piggybacks on Lenis)
+          const px = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
+          if (px.length) {
+            const drift = () => {
+              const vh = window.innerHeight;
+              px.forEach((el) => {
+                const r = el.getBoundingClientRect();
+                const prog = (r.top + r.height / 2 - vh / 2) / vh;
+                const amt = parseFloat(el.dataset.parallax || "0");
+                el.style.transform = `translate3d(0, ${(-prog * amt).toFixed(2)}px, 0)`;
+              });
+            };
+            lenis.on("scroll", drift);
+            drift();
+          }
+
           document.querySelectorAll('a[href^="#"]').forEach((a) => {
             a.addEventListener("click", (ev) => {
               const id = a.getAttribute("href");

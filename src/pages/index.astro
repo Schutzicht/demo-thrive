@@ -4,12 +4,18 @@ import DripFinder from "../components/DripFinder.astro";
 import { biz, drips, services, testimonials } from "../data/site";
 
 const feature = drips[2]; // Rapid Recovery Elixir
-const rowDrips = drips.filter((d) => d.slug !== feature.slug).slice(0, 5);
+const cardDrips = drips.filter((d) => d.slug !== feature.slug).slice(0, 6);
 const groups = ["Hydration", "Aesthetics", "Weight Loss", "Wellness"] as const;
 const stats = [
   { count: 12, suffix: "", label: "Signature IV blends" },
   { count: 15, suffix: "+", label: "Years of medical expertise" },
   { count: 30, suffix: " min", label: "In and out, feeling new" },
+];
+const trust = [
+  { t: "Board-certified medical team", icon: "M12 3l7 3v5c0 4.4-3 7.8-7 9-4-1.2-7-4.6-7-9V6l7-3Zm-2.5 8 1.7 1.7L15 9" },
+  { t: "RN-administered infusions", icon: "M12 2C12 2 6 9 6 14a6 6 0 0 0 12 0c0-5-6-12-6-12Z" },
+  { t: "Mobile house calls in Orlando", icon: "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z M12 10h.01" },
+  { t: "FSA / HSA eligible", icon: "M20 6L9 17l-5-5" },
 ];
 ---
 <Base>
@@ -25,22 +31,37 @@ const stats = [
           <a href="/drips" class="link-underline">See the drip menu</a>
         </div>
       </div>
-      <div class="lg:col-span-5 mt-10 lg:mt-0">
+      <div class="lg:col-span-5 mt-10 lg:mt-0 relative z-10">
         <div class="frame aspect-[4/5]" data-reveal-img>
-          <img src="/images/iv-detail.jpg" alt="A ThrIVe IV hydration infusion" class="w-full h-full object-cover" fetchpriority="high" />
+          <img src="/images/iv-detail.jpg" alt="A ThrIVe IV hydration infusion" class="w-full h-full object-cover" fetchpriority="high" data-parallax="12" />
+          <div class="hero-chip">RN-administered</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- STAT STRIP -->
-  <section data-theme="light" class="section-sm">
+  <!-- TRUST STRIP -->
+  <section data-theme="light" class="section-sm !pt-0">
     <div class="wrap">
-      <div class="hairline mb-12"></div>
+      <ul class="flex flex-wrap items-center gap-x-8 gap-y-3" data-reveal>
+        {trust.map((x) => (
+          <li class="inline-flex items-center gap-2.5 text-xs uppercase tracking-[0.16em] text-mute">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-aqua shrink-0"><path d={x.icon}/></svg>
+            {x.t}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- STAT STRIP -->
+  <section data-theme="light" class="section-sm !pt-2">
+    <div class="wrap">
+      <div class="hairline-brass mb-12"></div>
       <div class="grid gap-y-10 sm:grid-cols-3" data-reveal>
         {stats.map((s, i) => (
           <div class:list={["flex items-baseline gap-4 sm:px-10", i === 0 && "sm:pl-0", i > 0 && "sm:border-l border-[var(--hair)]"]}>
-            <span class="display-2 text-ink leading-none shrink-0"><span data-count={s.count} data-suffix={s.suffix}>0{s.suffix}</span></span>
+            <span class="fig-stat text-ink leading-none shrink-0"><span data-count={s.count} data-suffix={s.suffix}>0{s.suffix}</span></span>
             <span class="text-mute text-sm leading-snug">{s.label}</span>
           </div>
         ))}
@@ -49,7 +70,7 @@ const stats = [
   </section>
 
   <!-- DRIPS LOOKBOOK -->
-  <section data-theme="light" class="section">
+  <section data-theme="light" class="section" style="background:var(--color-linen)">
     <div class="wrap">
       <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
         <div data-reveal>
@@ -61,47 +82,51 @@ const stats = [
         </a>
       </div>
 
-      <div class="grid-12">
-        <!-- feature drip -->
-        <a href={`/drips#${feature.slug}`} class="lg:col-span-5 card relative overflow-hidden flex flex-col justify-between min-h-[20rem] group" data-reveal>
-          <div class="relative">
-            <p class="eyebrow mb-3">Most loved</p>
-            <h3 class="display-2 text-ink">{feature.name}</h3>
-            <p class="text-mute text-sm mt-3 max-w-[34ch]">{feature.treats}</p>
-          </div>
-          <div class="relative flex flex-wrap gap-2 mt-8">
+      <!-- feature -->
+      <a href={`/drips#${feature.slug}`} class="drip-feature group" data-reveal>
+        <div class="drip-feature__media">
+          <img src="/images/glow.jpg" alt={feature.name} loading="lazy" />
+        </div>
+        <div class="drip-feature__body">
+          <p class="eyebrow mb-3">Most loved</p>
+          <h3 class="display-2 text-ink">{feature.name}</h3>
+          <p class="text-mute mt-3 max-w-[38ch]">{feature.treats}</p>
+          <div class="flex flex-wrap gap-2 mt-6">
             {feature.ingredients.map((ing) => <span class="chip">{ing}</span>)}
           </div>
-        </a>
-
-        <!-- rows -->
-        <div class="lg:col-span-7" data-reveal data-reveal-delay="1">
-          {rowDrips.map((d) => (
-            <a href={`/drips#${d.slug}`} class="row group !grid-cols-[1fr_auto]">
-              <span class="min-w-0">
-                <span class="display-3 text-ink block">{d.name}</span>
-                <span class="text-mute text-sm">{d.tag}</span>
-              </span>
-              <span class="row__price self-center inline-flex items-center gap-2">View
-                <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </span>
-              <span class="row__rule"></span>
-            </a>
-          ))}
+          <span class="link-underline mt-8 inline-flex w-max">View this blend
+            <svg class="arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
         </div>
+      </a>
+
+      <!-- colour cards -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+        {cardDrips.map((d, i) => (
+          <a href={`/drips#${d.slug}`} class="drip-card" style={`--card-c:${d.color}`} data-reveal data-reveal-delay={(i % 3) + 1}>
+            <span class="drip-card__seam"></span>
+            <div class="drip-card__body">
+              <span class="fig-index" style={`color:${d.color}`}>{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="display-3 text-ink">{d.name}</h3>
+              <p class="text-mute text-sm leading-relaxed">{d.treats}</p>
+              <span class="chip self-start mt-auto" style={`border-color:color-mix(in oklab, ${d.color} 45%, transparent); color:${d.color}`}>{d.tag}</span>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
   <!-- DRIP FINDER (the one deep band) -->
-  <section data-theme="dark" class="section-air bg-mesh-deep">
-    <div class="wrap"><DripFinder /></div>
+  <section data-theme="dark" class="section-air bg-mesh-deep relative overflow-hidden">
+    <span class="ghost-num absolute -bottom-8 -right-3 select-none leading-none" aria-hidden="true">IV</span>
+    <div class="wrap relative z-10"><DripFinder /></div>
   </section>
 
   <!-- SERVICES -->
-  <section data-theme="light" class="section relative overflow-hidden">
+  <section data-theme="light" class="section relative overflow-hidden bg-aqua-wash">
     <div class="wrap relative">
-      <span class="ghost-num absolute -top-10 right-0 hidden lg:block">+</span>
+      <span class="ghost-num absolute -top-10 right-0 hidden lg:block" aria-hidden="true">+</span>
       <div class="max-w-xl mb-10" data-reveal>
         <p class="eyebrow mb-4">Beyond the drip</p>
         <h2 class="display-2">A full menu of medical wellness.</h2>
@@ -127,11 +152,12 @@ const stats = [
     <div class="wrap grid-12 items-center gap-y-10">
       <div class="lg:col-span-5 order-2 lg:order-1" data-reveal-img>
         <div class="frame aspect-[4/5] max-w-md">
-          <img src="/images/patricia.jpg" alt="Patricia Miller, founder of ThrIVe" class="w-full h-full object-cover" loading="lazy" />
+          <img src="/images/patricia.jpg" alt="Patricia Miller, founder of ThrIVe" class="w-full h-full object-cover" loading="lazy" data-parallax="10" />
         </div>
       </div>
       <div class="lg:col-span-7 lg:pl-6 order-1 lg:order-2" data-reveal>
         <p class="eyebrow mb-5">The founder</p>
+        <div class="rule-foil mb-6"></div>
         <blockquote class="pullquote text-ink">"We listen to you. You're our priority. More time with your provider, a plan built around you."</blockquote>
         <p class="text-mute mt-7 max-w-xl">Patricia Miller, MSN, ARNP, FNP-BC founded ThrIVe in 2020, shortly after surgery to remove a benign brain tumor. That turning point inspired a place where her community could truly invest in their health. She brings more than 15 years in critical care and preventative medicine.</p>
         <a href="/about" class="link-underline mt-7 inline-flex">Read her story
@@ -141,8 +167,19 @@ const stats = [
     </div>
   </section>
 
+  <!-- LOUNGE BAND (full-bleed duotone breath) -->
+  <section data-theme="dark" class="band">
+    <img src="/images/hero-lounge.jpg" alt="The ThrIVe lounge in Orlando" loading="lazy" />
+    <div class="band__duo"></div>
+    <div class="band__scrim"></div>
+    <div class="wrap relative z-10 pb-14 sm:pb-16">
+      <p class="eyebrow mb-4" data-reveal>The lounge</p>
+      <blockquote class="pullquote text-ice max-w-[22ch]" data-reveal data-reveal-delay="1">Quiet rooms, warm light, and a team that actually has the time.</blockquote>
+    </div>
+  </section>
+
   <!-- TESTIMONIALS -->
-  <section data-theme="light" class="section" style="background:var(--color-vellum)">
+  <section data-theme="light" class="section bg-vellum">
     <div class="wrap-narrow">
       <div class="text-center mb-12" data-reveal>
         <p class="eyebrow is-center justify-center mb-4">In their words</p>
@@ -161,6 +198,7 @@ const stats = [
 
   <!-- CTA -->
   <section data-theme="dark" class="section-air bg-mesh-deep relative overflow-hidden">
+    <span class="ghost-num absolute -bottom-10 -left-4 select-none leading-none" aria-hidden="true">IV</span>
     <div class="wrap-narrow text-center relative z-10">
       <p class="eyebrow is-center justify-center mb-5" data-reveal>Ready when you are</p>
       <h2 class="display-1" data-reveal data-reveal-delay="1">Feel like yourself again.</h2>

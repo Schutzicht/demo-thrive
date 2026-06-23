@@ -26,8 +26,9 @@ import { biz, drips } from "../data/site";
   <!-- lookbook -->
   <section data-theme="light" class="section">
     <div class="wrap">
-      {drips.map((d) => (
-        <article id={d.slug} class="row scroll-mt-28 !grid-cols-1 sm:!grid-cols-[1fr_auto] !items-start" data-reveal>
+      {drips.map((d, i) => (
+        <article id={d.slug} class="row scroll-mt-28 !grid-cols-[auto_1fr] sm:!grid-cols-[3.5rem_1fr_auto] !items-start" data-reveal>
+          <span class="fig-index pt-1.5" style={`color:${d.color}`}>{String(i + 1).padStart(2, "0")}</span>
           <div class="min-w-0">
             <h2 class="display-3 text-ink">{d.name}</h2>
             <p class="text-mute text-sm mt-2 max-w-[52ch]">{d.treats}</p>
@@ -35,7 +36,7 @@ import { biz, drips } from "../data/site";
               {d.ingredients.map((ing) => <span class="chip">{ing}</span>)}
             </div>
           </div>
-          <div class="flex sm:flex-col sm:items-end gap-3 mt-4 sm:mt-1 items-center">
+          <div class="col-span-2 sm:col-span-1 flex sm:flex-col sm:items-end gap-3 mt-4 sm:mt-1 items-center">
             <span class="text-mute text-xs">Call or book for pricing</span>
             <a href={biz.bookingUrl} target="_blank" rel="noopener" class="btn btn-ghost !py-2 !px-4 text-sm">Book this</a>
           </div>

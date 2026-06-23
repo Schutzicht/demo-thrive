@@ -64,11 +64,14 @@ const data = Object.fromEntries(moods.map((m) => [m.key, { ...dripMap[m.slug], s
   .feel:active { transform: scale(0.96); }
   .feel[aria-pressed="true"] { background: var(--color-aqua); border-color: var(--color-aqua); color: #fff; }
 
-  .result-card { background: var(--color-linen); border-radius: 18px; padding: clamp(1.6rem, 3.5vw, 2.6rem); box-shadow: var(--shadow-raise); transition: opacity 0.35s var(--ease-out); }
+  .result-card { position: relative; background: var(--color-linen); border-radius: 18px; padding: clamp(1.6rem, 3.5vw, 2.6rem); box-shadow: var(--shadow-raise); transition: opacity 0.35s var(--ease-out); }
   .result-card.is-leaving { opacity: 0; }
+  .result-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(46,157,154,0.45); pointer-events: none; }
+  .result-card.is-pulse::after { animation: ringpulse 0.7s var(--ease-out); }
+  @keyframes ringpulse { 0% { box-shadow: 0 0 0 0 rgba(46,157,154,0.4); } 100% { box-shadow: 0 0 0 16px rgba(46,157,154,0); } }
   [data-result] { animation: ffade 0.45s var(--ease-out); }
   @keyframes ffade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { [data-result] { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { [data-result], .result-card.is-pulse::after { animation: none !important; } }
 </style>
 
 <script>
@@ -86,8 +89,9 @@ const data = Object.fromEntries(moods.map((m) => [m.key, { ...dripMap[m.slug], s
       result.style.animation = "none"; void result.offsetWidth; result.style.animation = "";
       result.querySelector("[data-name]")!.textContent = d.name;
       result.querySelector("[data-treats]")!.textContent = d.treats;
-      result.querySelector("[data-ings]")!.innerHTML = d.ingredients.map((i: string) => `<span class="chip">${i}</span>`).join("");
+      result.querySelector("[data-ings]")!.innerHTML = d.ingredients.map((ing: string, n: number) => `<span class="chip" data-in style="animation-delay:${60 + n * 70}ms">${ing}</span>`).join("");
       (result.querySelector("[data-detail]") as HTMLAnchorElement).href = `/drips#${d.slug}`;
+      card.classList.remove("is-pulse"); void card.offsetWidth; card.classList.add("is-pulse");
     };
 
     feels.forEach((btn) => {

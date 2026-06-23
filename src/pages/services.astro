@@ -30,25 +30,28 @@ const groups = [
   </section>
 
   {groups.map((g, gi) => (
-    <section data-theme="light" class="section">
-      <div class="wrap grid-12 items-start gap-y-8">
+    <section data-theme="light" class:list={["section relative overflow-hidden", gi % 2 === 1 && "bg-aqua-wash"]}>
+      <div class="wrap grid-12 items-start gap-y-8 relative">
         <div class:list={["lg:col-span-5", gi % 2 === 1 ? "lg:order-2" : ""]} data-reveal-img>
           <div class="frame aspect-[4/5] max-w-sm">
-            <img src={g.img} alt={g.key} class="w-full h-full object-cover" loading="lazy" />
+            <img src={g.img} alt={g.key} class="w-full h-full object-cover" loading="lazy" data-parallax="10" />
           </div>
         </div>
-        <div class:list={["lg:col-span-7", gi % 2 === 1 ? "lg:order-1 lg:pr-8" : "lg:pl-2"]} data-reveal>
-          <p class="eyebrow mb-3">{g.key}</p>
-          <h2 class="display-2 mb-8">{g.blurb}</h2>
-          <div>
-            {services.filter((s) => s.group === g.key).map((s) => (
-              <div class="row">
-                <span class="display-3 text-ink self-center">{s.name}</span>
-                <span class="text-mute text-sm leading-relaxed self-center">{s.blurb}</span>
-                <span></span>
-                <span class="row__rule"></span>
-              </div>
-            ))}
+        <div class:list={["lg:col-span-7 relative", gi % 2 === 1 ? "lg:order-1 lg:pr-8" : "lg:pl-2"]} data-reveal>
+          <span class="ghost-num absolute -top-12 -left-1 hidden lg:block -z-0" aria-hidden="true">{g.n}</span>
+          <div class="relative z-10">
+            <p class="eyebrow mb-3">{g.key}</p>
+            <h2 class="display-2 mb-8">{g.blurb}</h2>
+            <div class="grid sm:grid-cols-2 gap-4">
+              {services.filter((s) => s.group === g.key).map((s) => (
+                <div class="card">
+                  <div class="card-top">
+                    <h3 class="display-3 text-ink">{s.name}</h3>
+                    <p class="text-mute text-sm mt-2 leading-relaxed">{s.blurb}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
