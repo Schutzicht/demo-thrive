@@ -59,20 +59,6 @@ const fullTitle = title ? `${title} · ${biz.name}` : `${biz.name} | IV Therapy,
         countEls.forEach((el) => cio.observe(el));
       }
 
-      // Body background follows the section in view (data-bg)
-      const bgSections = Array.from(document.querySelectorAll<HTMLElement>("[data-bg]"));
-      if (bgSections.length) {
-        const bgio = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting && e.intersectionRatio > 0.5) {
-              const c = (e.target as HTMLElement).dataset.bg;
-              if (c) document.body.style.backgroundColor = c;
-            }
-          });
-        }, { threshold: [0.5, 0.75] });
-        bgSections.forEach((s) => bgio.observe(s));
-      }
-
       // Lenis smooth scroll + parallax
       if (!reduce) {
         import("lenis").then(({ default: Lenis }) => {

@@ -80,8 +80,8 @@ html.lenis, html.lenis body { height: auto; }
   .text-pretty { text-wrap: pretty; }
 }
 
-/* ---------- Home hero: fit within the viewport so the next section peeks ---------- */
-.hero-home { padding-top: clamp(5.5rem, 4rem + 3.2vh, 6.75rem); padding-bottom: clamp(1.75rem, 3vh, 2.75rem); }
+/* ---------- Home hero: screen-filling, content centred ---------- */
+.hero-home { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: clamp(5.5rem, 3rem + 6vh, 7.5rem); padding-bottom: clamp(2rem, 4vh, 3.5rem); }
 .hero-home .display-xl { font-size: clamp(2.7rem, 1rem + 5.4vw, 5.2rem); line-height: 0.95; }
 .hero-media { width: 100%; max-width: 26rem; margin-inline: auto; }
 @media (min-width: 1024px) { .hero-media { max-width: 23rem; margin-right: 0; } }
